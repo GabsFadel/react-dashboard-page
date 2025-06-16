@@ -35,7 +35,7 @@ const Team = () => {
       field: "email", 
       headerName: "Email", 
       flex: 1,
-    }, 
+    },
     { 
       field: "access", 
       headerName: "Access Level", 
@@ -92,7 +92,9 @@ const Team = () => {
           backgroundColor: colors.blueAccent[700]
         }
       }}>
-        <DataGrid rows={mockDataTeam} columns={columns}
+        <DataGrid 
+        rows={mockDataTeam} 
+        columns={columns}
         />
       </Box>
     </Box>

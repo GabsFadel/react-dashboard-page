@@ -29,7 +29,7 @@ const Sidebar = () => {
         '& .pro-sidebar-inner': {
           background: `${colors.primary[400]} !important`
         },
-        '& .pro-icon-wallpaper': {
+        '& .pro-icon-wrapper': {
           backgroundColor: "transparent !important"
         },
         '& .pro-inner-item': {
@@ -66,6 +66,34 @@ const Sidebar = () => {
               )}
             </MenuItem>
           </Menu>
+
+          {/* USER */}
+          {!isCollapsed && (
+            <Box mb="25px ">
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <img 
+                  alt="profile-user"
+                  widht="100px"
+                  height="100px"
+                  src={`../../assets/user.jpeg`} 
+                  style={{ cursor: "pointer ", borderRadius:"50%"}}
+                />
+              </Box>
+
+              <Box textAlign="center">
+                <Typography 
+                  variant="h3" 
+                  color={colors.grey[100]} 
+                  fontWeight="bold" 
+                  sx={{ m: "10px 0 0 0"}}
+                  >Orga IA
+                  </Typography>
+                <Typography variant="h7" color={colors.greenAccent[500]}>
+                  © Desenvolvido pela equipe de Sistemas
+                  </Typography>
+              </Box>
+            </Box>
+          )}
       </ProSidebar>
     </Box>
   );
