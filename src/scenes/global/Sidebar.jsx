@@ -4,9 +4,10 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import { Box, Icon, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
-// import  HomeOutlinedIcon  from "@mui/icons-material/HomeOutOutlined";
-// import  PeopleOutlinedIcon  from "@mui/icons-material/PeopleOutlined";
-// import  ContactsOutlinedIcon  from "@mui/icons-material/ContactsOutlined";
+import HomeIcon from '@mui/icons-material/Home';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import ContactsIcon from '@mui/icons-material/Contacts';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 // import  ReceiptOutlinedIcon  from "@mui/icons-material/ReceiptOutlined";
 // import  PersonalOutlinedIcon  from "@mui/icons-material/PersonalOutlined";
 // import  CalendarTodayOutlinedIcon  from "@mui/icons-material/CalendarTodayOutlined";
@@ -16,6 +17,22 @@ import { tokens } from "../../theme";
 // import  TimelineOutlinedIcon  from "@mui/icons-material/TimelineOutlined";
 import  MenuOutlinedIcon  from "@mui/icons-material/MenuOutlined";
 // import  MapOutlinedIcon  from "@mui/icons-material/MapOutlined";
+
+const Item = ({ title, to, icon, selected, setSelected }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  return (
+    <MenuItem 
+      active={selected === title} 
+      style={{ color: colors.grey[100]}} 
+      onClick={()=> setSelected(title)}
+      icon={icon}
+    >
+      <Typography>{title}</Typography>
+      <Link to={to} />
+    </MenuItem>
+  )
+}
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -55,9 +72,14 @@ const Sidebar = () => {
             }}
             >
               {!isCollapsed && (
-                <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
+                <Box 
+                  display="flex" 
+                  justifyContent="space-between" 
+                  alignItems="center" 
+                  ml="15px"
+                >
                   <Typography variant="h3" colors={colors.grey[100]}>
-                    Chats:
+                    Chats
                     </Typography>
                   <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcon />
@@ -65,7 +87,7 @@ const Sidebar = () => {
                 </Box>
               )}
             </MenuItem>
-          </Menu>
+
 
           {/* USER */}
           {!isCollapsed && (
@@ -86,7 +108,7 @@ const Sidebar = () => {
                   color={colors.grey[100]} 
                   fontWeight="bold" 
                   sx={{ m: "10px 0 0 0"}}
-                  >Orga IA
+                  >Orga AI
                   </Typography>
                 <Typography variant="h7" color={colors.greenAccent[500]}>
                   © Desenvolvido pela equipe de Sistemas
@@ -94,6 +116,40 @@ const Sidebar = () => {
               </Box>
             </Box>
           )}
+
+          {/* MENU ITEMS */}
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Dashboard"
+              to="/"
+              icon={<HomeIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Usuários"
+              to="/team"
+              icon={<PeopleAltIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Criar Usuários"
+              to="/form"
+              icon={<AddReactionIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Dados Usuários"
+              to="/contacts"
+              icon={<ContactsIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+
+        </Menu>
       </ProSidebar>
     </Box>
   );

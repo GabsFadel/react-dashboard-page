@@ -53,7 +53,7 @@ const Form = () => {
   }
 
   return <Box m="20px">
-    <Header title="CREATE USER" subtitle="Create a New User Profile" />
+    <Header title="Criação de usuário" subtitle="Crie um novo perfil de usuário" />
 
     <Formik
       onSubmit={handleFormSubmit}
@@ -81,7 +81,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="Nome"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}
@@ -94,7 +94,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Last Name"
+                label="Sobrenome"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.lastName}
@@ -133,7 +133,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Contact number"
+                label="Número de telefone"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.contact}
@@ -146,7 +146,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Address 1"
+                label="Endereço 1"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}
@@ -159,7 +159,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Address 2"
+                label="Endereço 2"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}
@@ -171,7 +171,7 @@ const Form = () => {
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained" >
-                Create New User
+                Crie novo usuário
               </Button>
             </Box>
         </form>
