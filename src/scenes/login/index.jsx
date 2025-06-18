@@ -59,7 +59,7 @@ const Login = () => {
             </Link>
           </Grid>
           <Grid Item>
-            <Link component={RouterLink} to="/forgot">
+            <Link component={RouterLink} to="/form">
               Registrar-se
             </Link>
           </Grid>
