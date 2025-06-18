@@ -149,7 +149,7 @@ const Form = () => {
                 label="Endereço 1"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.firstName}
+                value={values.address1}
                 name="address1"
                 error={!!touched.address1 && !!errors.address1} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
                 helperText={!!touched.address1 && errors.address1}
@@ -162,7 +162,7 @@ const Form = () => {
                 label="Endereço 2"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.firstName}
+                value={values.address2}
                 name="address2"
                 error={!!touched.address2 && !!errors.address2} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
                 helperText={!!touched.address2 && errors.address2}

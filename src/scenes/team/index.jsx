@@ -70,9 +70,11 @@ const Team = () => {
   return (
     <Box m="20px">
       <Header title="Usuários" subtitle="Administração de usuários da IA"/>
-      <Box m="40px 0 0 0" height="75vh" sx={{
+      <Box 
+        m="40px 0 0 0" 
+        height="75vh" sx={{
         "& .MuiDataGrid-root": {
-          border: "none"
+        border: "none"
         },
         "& .MuiDataGrid-cell": {
           borderBottom: "none"
@@ -82,16 +84,17 @@ const Team = () => {
         },
         "& .MuiDataGrid-columnHeaders": {
           backgroundColor: colors.blueAccent[700],
-          borderBottom: "none"
+          borderBottom: "none",
         },
         "& .MuiDataGrid-virtualScroller": {
-          backgroundColor: colors.primary[400]
+          backgroundColor: colors.primary[400],
         },
         "& .MuiDataGrid-footerContainer": {
           borderTop: "none",
-          backgroundColor: colors.blueAccent[700]
+          backgroundColor: colors.blueAccent[700],
         }
-      }}>
+      }}
+    >
         <DataGrid 
         rows={mockDataTeam} 
         columns={columns}
