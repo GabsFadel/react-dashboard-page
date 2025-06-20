@@ -1,41 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react'; 
 import { Box, Typography, InputBase, IconButton, useTheme } from "@mui/material";
 import { keyframes } from '@emotion/react';
-import { tokens } from "../../theme";
+import { tokens } from "../../theme"; 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import MicIcon from '@mui/icons-material/Mic';
-import MovieIcon from '@mui/icons-material/Movie';
-import ScienceIcon from '@mui/icons-material/Science';
-import BrushIcon from '@mui/icons-material/Brush';
-
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'; 
+import SmartToyIcon from '@mui/icons-material/SmartToy'; 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Header from "../../components/Header";
 
 const Dashboard = () => {
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // Animação para o gradiente do texto
+  const [prompt, setPrompt] = useState("");
+  // Novo estado para armazenar o histórico de mensagens
+  const [messages, setMessages] = useState([]); 
+  const endOfMessagesRef = useRef(null); 
+
   const gradientAnimation = keyframes`
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   `;
   
-  // Animação de brilho para a borda do input
   const pulseAnimation = keyframes`
     0% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
     50% { box-shadow: 0 0 16px 4px ${colors.blueAccent[500]}; }
     100% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
   `;
 
-  // Estado e handlers (sem alteração na lógica)
-  const [prompt, setPrompt] = useState("");
-
+  // Função de envio de prompt
   const handleSendPrompt = () => {
-    if (prompt.trim() === "") return;
-    console.log("Enviando prompt:", prompt);
+    const trimmedPrompt = prompt.trim();
+    if (trimmedPrompt === "") return;
+
+    // 1. Adiciona a mensagem do usuário ao estado
+    const userMessage = {
+      id: Date.now(),
+      text: trimmedPrompt,
+      sender: 'user',
+    };
+    setMessages(prev => [...prev, userMessage]);
+
+    // Limpa o campo de input
     setPrompt("");
+
+    
+    setTimeout(() => {
+      const aiMessage = {
+        id: Date.now() + 1,
+        text: "Esta é uma resposta fixa da Orga IA. Em breve, estarei conectada a uma inteligência artificial de verdade!",
+        sender: 'ai',
+      };
+      setMessages(prev => [...prev, aiMessage]);
+    }, 1000);
   };
 
   const handleKeyPress = (e) => {
@@ -45,77 +63,121 @@ const Dashboard = () => {
     }
   };
 
+  // Efeito para rolar a tela para a última mensagem
+  useEffect(() => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]); // Executa toda vez que a lista de mensagens muda
+
   return (
     <Box m="20px" display="flex" flexDirection="column" height="calc(100vh - 100px)">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="Orga IA" subtitle="Bem-vindo a nossa IA!" />
       </Box>
 
-      <Box display="flex" flexDirection="column" justifyContent="flex-end" alignItems="center" flexGrow={1} pb={4}>
-        <Box flexGrow={1} display="flex" alignItems="center" justifyContent="center">
-            <Typography variant="h1" sx={{
-                fontSize: '56px',
-                fontWeight: 'bold',
-                // Gradiente usando suas cores de acento
-                background: `linear-gradient(45deg, ${colors.blueAccent[500]}, ${colors.redAccent[500]}, ${colors.blueAccent[500]})`,
-                backgroundSize: '200% 200%',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                animation: `${gradientAnimation} 4s ease infinite`,
+      {/* Container principal do chat */}
+      <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} pb={2} position="relative">
+
+        {/* Área de exibição das mensagens */}
+        <Box 
+          flexGrow={1} 
+          display="flex" 
+          flexDirection="column" 
+          justifyContent={messages.length === 0 ? "center" : "flex-start"} 
+          alignItems="center"
+          sx={{ overflowY: 'auto', p: 2 }}
+        >
+          {messages.length === 0 ? (
+            // Mensagem inicial se não houver conversa
+            <Typography variant="h1" textAlign="center" sx={{
+              fontSize: '56px', fontWeight: 'bold',
+              background: `linear-gradient(45deg, ${colors.blueAccent[500]}, ${colors.redAccent[500]}, ${colors.blueAccent[500]})`,
+              backgroundSize: '200% 200%', backgroundClip: 'text', WebkitBackgroundClip: 'text',
+              color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,
             }}>
-                Pergunte a Orga IA!
+              Pergunte a Orga IA!
             </Typography>
+          ) : (
+            // Renderiza o histórico de mensagens
+            <Box width="100%" maxWidth="900px" display="flex" flexDirection="column" gap={2}>
+              {messages.map(msg => (
+                <Box
+                  key={msg.id}
+                  display="flex"
+                  gap={1.5}
+                  alignSelf={msg.sender === 'user' ? 'flex-end' : 'flex-start'}
+                  flexDirection={msg.sender === 'user' ? 'row-reverse' : 'row'}
+                >
+                  <Box sx={{
+                    borderRadius: '50%',
+                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[800] : colors.greenAccent[800],
+                    p: 1,
+                    display: 'flex',
+                    alignSelf: 'flex-start'
+                  }}>
+                    {msg.sender === 'user' ? <AccountCircleIcon /> : <SmartToyIcon />}
+                  </Box>
+                  <Typography
+                    sx={{
+                      backgroundColor: msg.sender === 'user' ? colors.blueAccent[700] : colors.primary[600],
+                      color: colors.grey[100],
+                      p: '10px 15px',
+                      borderRadius: '15px',
+                      maxWidth: '600px',
+                      whiteSpace: 'pre-wrap',
+                    }}
+                  >
+                    {msg.text}
+                  </Typography>
+                </Box>
+              ))}
+              {/* Elemento invisível para forçar o scroll */}
+              <div ref={endOfMessagesRef} />
+            </Box>
+          )}
         </Box>
 
-        <Box width={{ xs: '95%', md: '80%' }} maxWidth="900px" position="relative">
-          <Box
-            display="flex"
-            alignItems="center"
-            p={1}
-            sx={{
-              // Cores do input totalmente baseadas no seu tema
-              backgroundColor: colors.primary[700],
-              borderRadius: '28px',
-              border: `1px solid ${colors.grey[600]}`,
-              transition: 'all 0.3s ease',
-              '&:hover, &:focus-within': {
-                backgroundColor: colors.primary[400],
-                borderColor: 'transparent',
-                boxShadow: `0 0 12px 2px ${colors.blueAccent[600]}`,
-              },
-              '&:focus-within': {
-                animation: `${pulseAnimation} 2s infinite`,
-              }
-            }}
-          >
-            {/* Ícones com a cor de texto principal do seu tema */}
-            <IconButton sx={{ color: colors.grey[100] }}><AddCircleOutlineIcon /></IconButton>
-            <IconButton title="Vídeo" sx={{ color: colors.grey[100], mx: 0.5 }}><MovieIcon /></IconButton>
-            <IconButton title="Deep Research" sx={{ color: colors.grey[100], mx: 0.5 }}><ScienceIcon /></IconButton>
-            <IconButton title="Canvas" sx={{ color: colors.grey[100], mx: 0.5 }}><BrushIcon /></IconButton>
+        {/*  Barra de input  */}
+        <Box width="100%" display="flex" justifyContent="center" pt={2}>
+            <Box width={{ xs: '95%', md: '80%' }} maxWidth="900px">
+                <Box
+                display="flex" alignItems="center" p={1}
+                sx={{
+                    backgroundColor: colors.primary[700], borderRadius: '28px', border: `1px solid ${colors.grey[600]}`,
+                    transition: 'all 0.3s ease',
+                    '&:hover, &:focus-within': {
+                    backgroundColor: colors.primary[400], borderColor: 'transparent',
+                    boxShadow: `0 0 12px 2px ${colors.blueAccent[600]}`,
+                    },
+                    '&:focus-within': { animation: `${pulseAnimation} 2s infinite` }
+                }}
+                >
+                <IconButton sx={{ color: colors.grey[100] }}><AddCircleOutlineIcon /></IconButton>
+                <InputBase
+                    fullWidth placeholder="Peça ao Orga" value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    onKeyPress={handleKeyPress} multiline maxRows={5}
+                    sx={{
+                    color: colors.grey[100], fontSize: '16px', ml: 1,
+                    '& .MuiInputBase-input::placeholder': { color: colors.grey[300], opacity: 1, },
+                    }}
+                />
 
-            <InputBase
-              fullWidth
-              placeholder="Peça ao Orga"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyPress={handleKeyPress}
-              multiline
-              maxRows={5}
-              sx={{
-                color: colors.grey[100],
-                fontSize: '16px',
-                ml: 1,
-                '& .MuiInputBase-input::placeholder': {
-                  color: colors.grey[300],
-                  opacity: 1,
-                },
-              }}
-            />
-
-            <IconButton sx={{ color: colors.grey[100] }}><MicIcon /></IconButton>
-          </Box>
+                <IconButton
+                    onClick={handleSendPrompt}
+                    disabled={prompt.trim() === ""}
+                    sx={{ 
+                      color: colors.grey[100],
+                      backgroundColor: prompt.trim() === "" ? 'transparent' : colors.blueAccent[600],
+                      transition: 'background-color 0.3s',
+                      '&:hover': {
+                        backgroundColor: prompt.trim() === "" ? 'transparent' : colors.blueAccent[500],
+                      }
+                    }}
+                >
+                  <ArrowUpwardIcon />
+                </IconButton>
+                </Box>
+            </Box>
         </Box>
       </Box>
     </Box>
