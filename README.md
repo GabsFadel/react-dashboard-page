@@ -26,20 +26,6 @@ O objetivo da Orga IA é centralizar a utilização de inteligência artificial 
 
 ---
 
-## 📸 Screenshots
-
-<p align="center">
-  <img src="caminho/para/sua/image_1f0e03.png" alt="Dashboard de Chat" width="45%">
-  &nbsp;&nbsp;
-  <img src="caminho/para/sua/image_1f244d.png" alt="Sidebar com Histórico" width="45%">
-</p>
-<p align="center">
-  <img src="caminho/para/sua/image_1f0e9b.png" alt="Login Seguro" width="45%">
-</p>
-
-
----
-
 ## 🛠️ Tecnologias Utilizadas
 
 | Tecnologia | Descrição |
@@ -80,12 +66,6 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente de de
     yarn install
     ```
 
-4.  **Configure as variáveis de ambiente:**
-    Crie um arquivo chamado `.env` na raiz do projeto, copiando o exemplo de `.env.example` (se houver). Adicione suas chaves de API.
-    ```env
-    REACT_APP_OPENAI_API_KEY=SUA_CHAVE_DA_OPENAI_AQUI
-    ```
-
 ### Executando a Aplicação
 
 1.  **Inicie o servidor de desenvolvimento:**
@@ -120,7 +100,7 @@ A estrutura de pastas do projeto segue o padrão de aplicações React, com uma 
 
 ## 📄 Licença
 
-Este projeto é de uso exclusivo da **[Nome da Sua Empresa]** e possui licença proprietária. A distribuição, cópia ou utilização fora do ambiente da empresa não é permitida.
+Este projeto é de uso exclusivo da **[Organnact]** e possui licença proprietária. A distribuição, cópia ou utilização fora do ambiente da empresa não é permitida.
 
 ---
 
