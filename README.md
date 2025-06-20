@@ -1,70 +1,130 @@
-# Getting Started with Create React App
+# Orga IA 🤖
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Framework](https://img.shields.io/badge/framework-React-blue?logo=react)
+![Versão](https://img.shields.io/badge/versão-1.0.0-informational)
+![Licença](https://img.shields.io/badge/licença-Proprietária-red)
 
-## Available Scripts
+Orga IA é uma plataforma de chat inteligente e segura, desenvolvida para uso interno na **[Organnact]**. Ela oferece uma interface moderna e intuitiva para interação com nosso modelo de IA customizado, baseado na tecnologia da OpenAI, além de um painel administrativo completo para gestão de acessos.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📜 Sobre o Projeto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+O objetivo da Orga IA é centralizar a utilização de inteligência artificial na nossa organização, fornecendo uma ferramenta unificada, segura e adaptada às nossas necessidades. A plataforma foi construída com foco em uma experiência de usuário fluida e em ferramentas de administração robustas, garantindo que apenas usuários autorizados tenham acesso e que os administradores possam gerenciar a plataforma com facilidade.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## ✨ Funcionalidades Principais
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* **✨ Interface de Chat Moderna:** UI inspirada nas melhores plataformas do mercado, com histórico de conversa, renderização de mensagens e design responsivo.
+* **👤 Gestão de Usuários Completa:** Painel administrativo para criar, visualizar e gerenciar contas de usuários na plataforma.
+* **🔐 Autenticação Segura:** Sistema de Login e Cadastro, garantindo que apenas pessoal autorizado acesse a IA.
+* **📜 Histórico de Conversas:** Uma sidebar inteligente que salva e exibe o histórico de chats recentes para fácil acesso.
+* **🚀 Modelo de IA Customizado:** Integração direta com um modelo de linguagem próprio, construído sobre a base da API da OpenAI, para respostas mais precisas e contextualizadas ao nosso negócio.
+* **🎨 Tema Dinâmico e Estilizado:** Interface construída com Material-UI (MUI) e um sistema de tema customizável para consistência visual.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📸 Screenshots
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<p align="center">
+  <img src="caminho/para/sua/image_1f0e03.png" alt="Dashboard de Chat" width="45%">
+  &nbsp;&nbsp;
+  <img src="caminho/para/sua/image_1f244d.png" alt="Sidebar com Histórico" width="45%">
+</p>
+<p align="center">
+  <img src="caminho/para/sua/image_1f0e9b.png" alt="Login Seguro" width="45%">
+</p>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🛠️ Tecnologias Utilizadas
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Tecnologia | Descrição |
+| :--- | :--- |
+| **React.js** | Biblioteca principal para a construção da interface de usuário. |
+| **Material-UI (MUI)** | Suíte de componentes React para um design mais rápido e consistente. |
+| **React Pro Sidebar**| Componente utilizado para a criação da sidebar customizável. |
+| **OpenAI API** | Base para a comunicação com o nosso modelo próprio de inteligência artificial. |
+| **React Router**| Para gerenciamento das rotas da aplicação (Login, Dashboard, Admin, etc.). |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🚀 Como Executar o Projeto
 
-## Learn More
+Siga os passos abaixo para configurar e executar o projeto em seu ambiente de desenvolvimento local.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Pré-requisitos
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* [Node.js](https://nodejs.org/en/) (versão 18.x ou superior)
+* `npm` ou `yarn`
 
-### Code Splitting
+### Instalação
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/GabsFadel/react-dashboard-page.git](https://github.com/GabsFadel/react-dashboard-page.git)
+    ```
 
-### Analyzing the Bundle Size
+2.  **Acesse a pasta do projeto:**
+    ```bash
+    cd react-dashboard-page
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3.  **Instale as dependências:**
+    ```bash
+    npm install
+    # ou
+    yarn install
+    ```
 
-### Making a Progressive Web App
+4.  **Configure as variáveis de ambiente:**
+    Crie um arquivo chamado `.env` na raiz do projeto, copiando o exemplo de `.env.example` (se houver). Adicione suas chaves de API.
+    ```env
+    REACT_APP_OPENAI_API_KEY=SUA_CHAVE_DA_OPENAI_AQUI
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Executando a Aplicação
 
-### Advanced Configuration
+1.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm start
+    # ou
+    yarn start
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2.  **Abra no navegador:**
+    Acesse [`http://localhost:3000`](http://localhost:3000) para ver a aplicação em execução.
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📁 Estrutura de Pastas
 
-### `npm run build` fails to minify
+A estrutura de pastas do projeto segue o padrão de aplicações React, com uma organização focada em cenas e componentes reutilizáveis.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+/
+├── public/
+└── src/
+    ├── assets/
+    ├── components/   # Componentes reutilizáveis (Header, etc.)
+    ├── scenes/       # Páginas principais da aplicação (dashboard, login, team, etc.)
+    ├── theme/        # Arquivo de tema (theme.js)
+    ├── App.js
+    └── index.js
+```
+
+---
+
+## 📄 Licença
+
+Este projeto é de uso exclusivo da **[Nome da Sua Empresa]** e possui licença proprietária. A distribuição, cópia ou utilização fora do ambiente da empresa não é permitida.
+
+---
+
+## 🙏 Agradecimentos
+
+* À **Equipe de Sistemas** pelo desenvolvimento e manutenção.
+* A todos os colaboradores que participam dos testes e feedbacks.
