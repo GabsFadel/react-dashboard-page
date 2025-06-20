@@ -26,20 +26,6 @@ O objetivo da Orga IA é centralizar a utilização de inteligência artificial 
 
 ---
 
-## 📸 Screenshots
-
-<p align="center">
-  <img src="caminho/para/sua/image_1f0e03.png" alt="Dashboard de Chat" width="45%">
-  &nbsp;&nbsp;
-  <img src="caminho/para/sua/image_1f244d.png" alt="Sidebar com Histórico" width="45%">
-</p>
-<p align="center">
-  <img src="caminho/para/sua/image_1f0e9b.png" alt="Login Seguro" width="45%">
-</p>
-
-
----
-
 ## 🛠️ Tecnologias Utilizadas
 
 | Tecnologia | Descrição |
