@@ -66,12 +66,6 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente de de
     yarn install
     ```
 
-4.  **Configure as variáveis de ambiente:**
-    Crie um arquivo chamado `.env` na raiz do projeto, copiando o exemplo de `.env.example` (se houver). Adicione suas chaves de API.
-    ```env
-    REACT_APP_OPENAI_API_KEY=SUA_CHAVE_DA_OPENAI_AQUI
-    ```
-
 ### Executando a Aplicação
 
 1.  **Inicie o servidor de desenvolvimento:**
@@ -106,7 +100,7 @@ A estrutura de pastas do projeto segue o padrão de aplicações React, com uma 
 
 ## 📄 Licença
 
-Este projeto é de uso exclusivo da **[Nome da Sua Empresa]** e possui licença proprietária. A distribuição, cópia ou utilização fora do ambiente da empresa não é permitida.
+Este projeto é de uso exclusivo da **[Organnact]** e possui licença proprietária. A distribuição, cópia ou utilização fora do ambiente da empresa não é permitida.
 
 ---
 
