@@ -35,9 +35,9 @@ const mockChatHistory = [
   "IT Service Launch Success F...", 
   "Documento Sobre React Ho...", 
   "Como fazer café dalgona",
-  "Mija em mim", 
+  "Teste page", 
   "Melhores práticas de UI/UX",
-  "Cozinhar droga",
+  "Cozinhar",
 ];
 
 const Sidebar = () => {
