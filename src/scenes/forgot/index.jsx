@@ -1,13 +1,17 @@
-import { Avatar, Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, Button, Grid, TextField, Typography, useTheme } from "@mui/material";
 import { keyframes } from '@emotion/react';
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'; // Novo ícone
 import { Link as RouterLink } from "react-router-dom";
-import { tokens } from "../../theme"; 
 
+// IMPORTANTE: Importe seus tokens do arquivo de tema
+import { tokens } from "../../theme"; // <-- Ajuste o caminho se necessário
+
+// --- Animações (reutilizadas do login) ---
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }`;
+  100% { background-position: 0% 50%; }
+`;
 
 const fadeInUp = keyframes`
   from {
@@ -20,12 +24,15 @@ const fadeInUp = keyframes`
   }
 `;
 
-const Login = () => {
+const ForgotPassword = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const handleSubmit = (event) => {
-    event.preventDefault(); 
-    console.log('Tentativa de login...');
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log('Enviando link de recuperação para:', data.get('email'));
+    // Lógica para chamar a API de recuperação de senha aqui
   };
 
   return (
@@ -47,7 +54,7 @@ const Login = () => {
           maxWidth: 400,
           width: '100%',
           p: 4,
-          backgroundColor: 'rgba(12, 16, 27, 0.5)', 
+          backgroundColor: 'rgba(12, 16, 27, 0.5)',
           backdropFilter: 'blur(10px)',
           border: `1px solid ${colors.primary[700]}`,
           borderRadius: '16px',
@@ -61,16 +68,20 @@ const Login = () => {
           height: 56,
           backgroundColor: colors.blueAccent[600],
         }}>
-          <LockOutlinedIcon />
+          <EmailOutlinedIcon /> 
         </Avatar>
-        <Typography component='h1' variant="h4" fontWeight="bold" sx={{ textAlign: "center", mb: 3, color: colors.grey[100] }}>
-          Login
+        <Typography component='h1' variant="h4" fontWeight="bold" sx={{ textAlign: "center", color: colors.grey[100] }}>
+          Recuperar Senha
+        </Typography>
+        <Typography variant="body2" sx={{ textAlign: "center", mt: 1, mb: 3, color: colors.grey[300] }}>
+          Insira seu e-mail e enviaremos um link para você voltar a acessar sua conta.
         </Typography>
         
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
-            variant="standard" 
-            placeholder="Email"
+            variant="standard"
+            placeholder="Seu endereço de e-mail"
+            name="email"
             fullWidth
             required
             autoFocus
@@ -83,29 +94,7 @@ const Login = () => {
             }}
             InputLabelProps={{ style: { color: colors.grey[300] } }}
           />
-          <TextField
-            variant="standard"
-            placeholder="Senha"
-            fullWidth
-            required
-            type="password"
-            sx={{ 
-              mb: 1,
-              '& .MuiInput-underline:before': { borderBottomColor: colors.grey[500] },
-              '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: colors.blueAccent[400] },
-              '& .MuiInput-underline:after': { borderBottom: `2px solid ${colors.blueAccent[500]}` },
-              input: { color: colors.grey[100] },
-            }}
-            InputLabelProps={{ style: { color: colors.grey[300] } }}
-          />
-          <FormControlLabel
-            control={<Checkbox sx={{ 
-              color: colors.blueAccent[400], 
-              '&.Mui-checked': { color: colors.blueAccent[500] },
-            }} />}
-            label="Lembrar-se de mim"
-            sx={{ color: colors.grey[200] }}
-          />
+          
           <Button
             type="submit"
             fullWidth
@@ -125,18 +114,13 @@ const Login = () => {
               }
             }}
           >
-            Sign In
+            Enviar Link de Recuperação
           </Button>
           
-          <Grid container justifyContent="space-between">
+          <Grid container justifyContent="center">
             <Grid item>
-              <RouterLink to="/forgot" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
-                Esqueceu sua senha?
-              </RouterLink>
-            </Grid>
-            <Grid item>
-              <RouterLink to="/register" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
-                Registrar-se
+              <RouterLink to="/login" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
+                Lembrou a senha? Voltar para o Login
               </RouterLink>
             </Grid>
           </Grid>
@@ -146,4 +130,4 @@ const Login = () => {
   );
 }
 
-export default Login;
+export default ForgotPassword;

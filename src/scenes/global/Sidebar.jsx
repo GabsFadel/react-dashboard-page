@@ -31,11 +31,11 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 }
 
 const mockChatHistory = [
-  "Monitor Fora de Quadro:...", 
-  "IT Service Launch Success F...", 
-  "Documento Sobre React Ho...", 
+  "Monitor Fora de Quadro:...",
+  "IT Service Launch Success F...",
+  "Documento Sobre React Ho...",
   "Como fazer café dalgona",
-  "Teste page", 
+  "Teste page",
   "Melhores práticas de UI/UX",
   "Cozinhar",
 ];
@@ -52,7 +52,7 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        height: "100vh", display: 'flex',
+        display: 'flex',
         '& .pro-sidebar-inner': { background: `${colors.primary[400]} !important` },
         '& .pro-icon-wrapper': { backgroundColor: "transparent !important" },
         '& .pro-inner-item': {
@@ -104,7 +104,7 @@ const Sidebar = () => {
             </Box>
           )}
 
-
+          {/* Seções de Menu */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Nova conversa" to="/" icon={<AddCommentOutlinedIcon />}
@@ -124,7 +124,6 @@ const Sidebar = () => {
                 <Typography>{chatTitle}</Typography>
               </MenuItem>
             ))}
-
             {!isCollapsed && mockChatHistory.length > initialVisibleCount && (
               <MenuItem
                 icon={isShowingMore ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -134,8 +133,8 @@ const Sidebar = () => {
               </MenuItem>
             )}
             
-
             <Box my="20px" />
+            
             {!isCollapsed && (
               <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 0" }}>
                 Admin

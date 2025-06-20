@@ -9,30 +9,33 @@ import Team from "./scenes/team";
 import Login from "./scenes/login";
 import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
+import ForgotPassword from "./scenes/forgot";
+import Register from "./scenes/register";
 
 function App() {
   const [theme, colorMode] = useMode();
   const location = useLocation();
 
-  // Rota onde não queremos exibir Sidebar e Topbar
-  const isLoginRoute = location.pathname === "/login";
+  const standaloneRoutes = ["/login", "/forgot", "/register"];
+
+  const isStandaloneRoute = standaloneRoutes.includes(location.pathname);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          {/* Renderize Sidebar apenas se não estiver na rota de login */}
-          {!isLoginRoute && <Sidebar />}
+          {!isStandaloneRoute && <Sidebar />}
           <main className="content">
-            {/* Renderize Topbar apenas se não estiver na rota de login */}
-            {!isLoginRoute && <Topbar />}
+            {!isStandaloneRoute && <Topbar />}
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/form" element={<Form />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/forgot" element={<ForgotPassword />} />
+              <Route path="/register" element={<Register />} />
             </Routes>
           </main>
         </div>
