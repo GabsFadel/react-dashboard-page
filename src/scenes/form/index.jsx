@@ -1,184 +1,173 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, MenuItem, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-
-const initialValues ={ 
-  firstName: "",
-  lastName: "",
-  email: "",
-  // password: any,
-  contact: "",
-  address1: "",
-  address2: "",
-}
-
-const phoneRegExp = 
-  /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-
-const userSchema = yup.object().shape({
-  firstName: yup
-    .string()
-    .required("Informe o nome"),
-  lastName: yup
-    .string()
-    .required("Informe o sobrenome"),
-  email: yup
-    .string()
-    .email("Email invalido")
-    .required("Informe o email"),
-  // password: yup
-  //   .string()
-  //   .password("Informe uma senha")
-  //   .required("Digite uma senha")
-  //   .min(6),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Telefone não é valido")
-    .required("Informe o contato"),
-  address1: yup
-    .string()
-    .required("Informe o endereço"),
-  address2: yup
-    .string()
-    .required("Informe o endereço2"),
-})
+import { tokens } from "../../theme";
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const handleFormSubmit = (values) => {
-    console.log(values);
-  }
+    console.log("Novo usuário criado:", values);
+  };
 
-  return <Box m="20px">
-    <Header title="Criação de usuário" subtitle="Crie um novo perfil de usuário" />
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    contact: "",
+    age: "",
+    access: "user",
+    password: "",
+    confirmPassword: "",
+  };
 
-    <Formik
-      onSubmit={handleFormSubmit}
-      initialValues={initialValues}
-      validationSchema={userSchema}
-    >
-      {({
-        values, 
-        errors, 
-        touched, 
-        handleBlur, 
-        handleChange,
-        handleSubmit 
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <Box 
-            display="grid"
-            gap="30px" 
-            gridTemplateColumns="repeat(4, minmax(0, 1fr))" //1fr significa que cada coluna pode ter 1 fração do espaço, na page
-            sx={{
-              "& > div": { gridColumn: isNonMobile ? undefined: "span 4"},
-            }}
+  const phoneRegExp = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+
+  const userSchema = yup.object().shape({
+    firstName: yup.string().required("O nome é obrigatório"),
+    lastName: yup.string().required("O sobrenome é obrigatório"),
+    email: yup.string().email("Formato de email inválido").required("O email é obrigatório"),
+    contact: yup.string().matches(phoneRegExp, "Número de telefone não é válido").required("O contato é obrigatório"),
+    age: yup.number().positive("A idade deve ser um número positivo").integer("A idade deve ser um número inteiro").required("A idade é obrigatória"),
+    access: yup.string().oneOf(["admin", "manager", "user"]).required("O nível de acesso é obrigatório"),
+    password: yup.string().min(6, "A senha deve ter no mínimo 6 caracteres").required("A senha é obrigatória"),
+    confirmPassword: yup.string()
+      .oneOf([yup.ref("password"), null], "As senhas não conferem") 
+      .required("Confirme a senha"),
+  });
+
+  return (
+    <Box m="20px">
+      <Header title="Criação de Usuário" subtitle="Crie um novo perfil para a plataforma Orga IA" />
+
+      <Formik
+        onSubmit={handleFormSubmit}
+        initialValues={initialValues}
+        validationSchema={userSchema}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <Box
+              display="grid"
+              gap="30px"
+              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+              sx={{
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+              }}
             >
+              {/* NOME E SOBRENOME */}
               <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Nome"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
-                helperText={!!touched.firstName && errors.firstName}
+                fullWidth variant="filled" type="text" label="Nome" onBlur={handleBlur}
+                onChange={handleChange} value={values.firstName} name="firstName"
+                error={!!touched.firstName && !!errors.firstName}
+                helperText={touched.firstName && errors.firstName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Sobrenome"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
-                helperText={!!touched.lastName && errors.lastName}
+                fullWidth variant="filled" type="text" label="Sobrenome" onBlur={handleBlur}
+                onChange={handleChange} value={values.lastName} name="lastName"
+                error={!!touched.lastName && !!errors.lastName}
+                helperText={touched.lastName && errors.lastName}
+                sx={{ gridColumn: "span 2" }}
+              />
+
+              {/* EMAIL */}
+              <TextField
+                fullWidth variant="filled" type="text" label="Email" onBlur={handleBlur}
+                onChange={handleChange} value={values.email} name="email"
+                error={!!touched.email && !!errors.email}
+                helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 4" }}
               />
+              
+              {/* SENHA E CONFIRMAÇÃO --- */}
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
-                helperText={!!touched.email && errors.email}
-                sx={{ gridColumn: "span 4" }}
-              />
-              {/* <TextField
-                fullWidth
-                variant="filled"
-                type="text"
+                type="password"
                 label="Senha"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.email}
+                value={values.password}
                 name="password"
-                error={!!touched.password && !!errors.password} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
-                helperText={!!touched.password && errors.password}
+                error={!!touched.password && !!errors.password}
+                helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 2" }}
-              /> */}
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Número de telefone"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
-                helperText={!!touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
-                label="Endereço 1"
+                type="password"
+                label="Confirmar Senha"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
-                helperText={!!touched.address1 && errors.address1}
+                value={values.confirmPassword}
+                name="confirmPassword"
+                error={!!touched.confirmPassword && !!errors.confirmPassword}
+                helperText={touched.confirmPassword && errors.confirmPassword}
+                sx={{ gridColumn: "span 2" }}
+              />
+
+              {/* CONTATO */}
+              <TextField
+                fullWidth variant="filled" type="text" label="Número de Telefone" onBlur={handleBlur}
+                onChange={handleChange} value={values.contact} name="contact"
+                error={!!touched.contact && !!errors.contact}
+                helperText={touched.contact && errors.contact}
                 sx={{ gridColumn: "span 4" }}
+              />
+
+              {/* IDADE E NÍVEL DE ACESSO */}
+              <TextField
+                fullWidth variant="filled" type="number" label="Idade" onBlur={handleBlur}
+                onChange={handleChange} value={values.age} name="age"
+                error={!!touched.age && !!errors.age}
+                helperText={touched.age && errors.age}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Endereço 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2} //isso esta forçando um boolean | e quando é clicado no campo ele força erro
-                helperText={!!touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
+                fullWidth variant="filled" select label="Nível de Acesso"
+                value={values.access} onChange={handleChange} onBlur={handleBlur}
+                name="access" error={!!touched.access && !!errors.access}
+                helperText={touched.access && errors.access}
+                sx={{ gridColumn: "span 2" }}
+              >
+                <MenuItem value="user">User</MenuItem>
+                <MenuItem value="manager">Manager</MenuItem>
+                <MenuItem value="admin">Admin</MenuItem>
+              </TextField>
+
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained" >
-                Crie novo usuário
+              <Button type="submit" sx={{
+                backgroundColor: colors.greenAccent[600],
+                color: colors.grey[100],
+                fontSize: "14px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+                '&:hover': {
+                  backgroundColor: colors.greenAccent[700],
+                }
+              }}>
+                Criar Novo Usuário
               </Button>
             </Box>
-        </form>
-      )}
-    </Formik>
-  </Box>
-}
+          </form>
+        )}
+      </Formik>
+    </Box>
+  );
+};
 
-
-export default Form; 
+export default Form;
