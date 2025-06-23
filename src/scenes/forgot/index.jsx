@@ -1,12 +1,9 @@
 import { Avatar, Box, Button, Grid, TextField, Typography, useTheme } from "@mui/material";
 import { keyframes } from '@emotion/react';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'; // Novo ícone
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { Link as RouterLink } from "react-router-dom";
+import { tokens } from "../../theme"; 
 
-// IMPORTANTE: Importe seus tokens do arquivo de tema
-import { tokens } from "../../theme"; // <-- Ajuste o caminho se necessário
-
-// --- Animações (reutilizadas do login) ---
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -119,7 +116,7 @@ const ForgotPassword = () => {
           
           <Grid container justifyContent="center">
             <Grid item>
-              <RouterLink to="/login" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
+              <RouterLink to="/" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
                 Lembrou a senha? Voltar para o Login
               </RouterLink>
             </Grid>

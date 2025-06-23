@@ -1,8 +1,9 @@
-import { Avatar, Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography, useTheme } from "@mui/material";
+import { useState } from 'react';
+import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, TextField, Typography, useTheme } from "@mui/material";
 import { keyframes } from '@emotion/react';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Link as RouterLink } from "react-router-dom";
-import { tokens } from "../../theme"; 
+import { Link as RouterLink, useNavigate } from "react-router-dom"; 
+import { tokens } from "../../theme";
 
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
@@ -22,9 +23,26 @@ const fadeInUp = keyframes`
 const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
+
   const handleSubmit = (event) => {
-    event.preventDefault(); 
-    console.log('Tentativa de login...');
+    event.preventDefault();
+
+    const loginData = {
+      email: email,
+      password: password,
+    };
+
+    console.log("Dados de Login (JSON):", JSON.stringify(loginData, null, 2));
+
+    // Em uma aplicação real, aqui você faria a chamada para a API de autenticação.
+    // Como é uma simulação, vamos direto para o redirecionamento.
+
+    // 3. Redireciona para o dashboard
+    navigate("/dashboard");
   };
 
   return (
@@ -40,13 +58,12 @@ const Login = () => {
         animation: `${gradientAnimation} 15s ease infinite`,
       }}
     >
-      {/* Container para o formulário */}
       <Box
         sx={{
           maxWidth: 400,
           width: '100%',
           p: 4,
-          backgroundColor: 'rgba(12, 16, 27, 0.5)', 
+          backgroundColor: 'rgba(12, 16, 27, 0.5)',
           backdropFilter: 'blur(10px)',
           border: `1px solid ${colors.primary[700]}`,
           borderRadius: '16px',
@@ -65,15 +82,18 @@ const Login = () => {
         <Typography component='h1' variant="h4" fontWeight="bold" sx={{ textAlign: "center", mb: 3, color: colors.grey[100] }}>
           Login
         </Typography>
-        
+
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
-            variant="standard" 
+            variant="standard"
             placeholder="Email"
+            name="email" 
             fullWidth
             required
             autoFocus
-            sx={{ 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            sx={{
               mb: 2,
               '& .MuiInput-underline:before': { borderBottomColor: colors.grey[500] },
               '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: colors.blueAccent[400] },
@@ -85,10 +105,13 @@ const Login = () => {
           <TextField
             variant="standard"
             placeholder="Senha"
+            name="password"
             fullWidth
             required
             type="password"
-            sx={{ 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            sx={{
               mb: 1,
               '& .MuiInput-underline:before': { borderBottomColor: colors.grey[500] },
               '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: colors.blueAccent[400] },
@@ -98,8 +121,8 @@ const Login = () => {
             InputLabelProps={{ style: { color: colors.grey[300] } }}
           />
           <FormControlLabel
-            control={<Checkbox sx={{ 
-              color: colors.blueAccent[400], 
+            control={<Checkbox sx={{
+              color: colors.blueAccent[400],
               '&.Mui-checked': { color: colors.blueAccent[500] },
             }} />}
             label="Lembrar-se de mim"
@@ -126,7 +149,7 @@ const Login = () => {
           >
             Sign In
           </Button>
-          
+
           <Grid container justifyContent="space-between">
             <Grid item>
               <RouterLink to="/forgot" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
