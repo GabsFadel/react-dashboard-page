@@ -107,7 +107,7 @@ const Sidebar = () => {
           {/* Seções de Menu */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Nova conversa" to="/" icon={<AddCommentOutlinedIcon />}
+              title="Nova conversa" to="/dashboard" icon={<AddCommentOutlinedIcon />}
               selected={selected} setSelected={setSelected}
             />
             {!isCollapsed && (
@@ -142,7 +142,7 @@ const Sidebar = () => {
             )}
             
             <Item
-              title="Dashboard" to="/" icon={<HomeIcon />}
+              title="Dashboard" to="/dashboard" icon={<HomeIcon />}
               selected={selected} setSelected={setSelected}
             />
             <Item

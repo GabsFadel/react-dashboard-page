@@ -172,7 +172,7 @@ const Register = () => {
 
           <Grid container justifyContent="center">
             <Grid item>
-              <RouterLink to="/login" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
+              <RouterLink to="/" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
                 Já tem uma conta? Voltar para o Login
               </RouterLink>
             </Grid>

@@ -11,13 +11,13 @@ import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
 import ForgotPassword from "./scenes/forgot";
 import Register from "./scenes/register";
+import EditUser from "./scenes/editUser";
 
 function App() {
   const [theme, colorMode] = useMode();
   const location = useLocation();
 
   const standaloneRoutes = ["/login", "/forgot", "/register"];
-
   const isStandaloneRoute = standaloneRoutes.includes(location.pathname);
 
   return (
@@ -30,12 +30,13 @@ function App() {
             {!isStandaloneRoute && <Topbar />}
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/forgot" element={<ForgotPassword />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/form" element={<Form />} />
+              <Route path="/edit-user/:id" element={<EditUser />} /> 
               <Route path="/contacts" element={<Contacts />} />
-              <Route path="/forgot" element={<ForgotPassword />} />
-              <Route path="/register" element={<Register />} />
             </Routes>
           </main>
         </div>
