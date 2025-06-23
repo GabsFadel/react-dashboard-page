@@ -17,7 +17,7 @@ function App() {
   const [theme, colorMode] = useMode();
   const location = useLocation();
 
-  const standaloneRoutes = ["/login", "/forgot", "/register"];
+  const standaloneRoutes = ["/", "/forgot", "/register"];
   const isStandaloneRoute = standaloneRoutes.includes(location.pathname);
 
   return (
@@ -29,14 +29,14 @@ function App() {
           <main className="content">
             {!isStandaloneRoute && <Topbar />}
             <Routes>
-              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Login />} />
               <Route path="/forgot" element={<ForgotPassword />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/form" element={<Form />} />
               <Route path="/edit-user/:id" element={<EditUser />} /> 
-              <Route path="/contacts" element={<Contacts />} />
+              {/* <Route path="/contacts" element={<Contacts />} /> */}
             </Routes>
           </main>
         </div>

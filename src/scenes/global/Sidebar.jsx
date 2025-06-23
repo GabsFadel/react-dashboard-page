@@ -153,10 +153,10 @@ const Sidebar = () => {
               title="Criar Usuários" to="/form" icon={<AddReactionIcon />}
               selected={selected} setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Dados Usuários" to="/contacts" icon={<ContactsIcon />}
               selected={selected} setSelected={setSelected}
-            />
+            /> */}
           </Box>
         </Menu>
       </ProSidebar>

@@ -1,4 +1,4 @@
-import { useState } from "react"; // Importando useState
+import { useState } from "react"; 
 import { Box, Typography, useTheme, Button, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
@@ -8,7 +8,7 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; // Ícone de deletar
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Header from "../../components/Header";
 
@@ -17,21 +17,16 @@ const Team = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  // --- NOVA LÓGICA DE ESTADO E DELEÇÃO ---
-  // Colocamos os dados em um estado para que possamos modificá-los (deletar)
   const [users, setUsers] = useState(mockDataTeam);
 
   const handleEdit = (id) => {
     console.log(`Editando usuário com ID: ${id}`);
-    // Navega para a nova rota de edição
     navigate(`/edit-user/${id}`);
   };
 
   const handleDelete = (id) => {
-    // Adiciona uma confirmação antes de deletar
     if (window.confirm("Você tem certeza que deseja deletar este usuário?")) {
       console.log(`Deletando usuário com ID: ${id}`);
-      // Filtra o array, removendo o usuário com o ID correspondente
       setUsers(users.filter((user) => user.id !== id));
     }
   };
@@ -68,7 +63,6 @@ const Team = () => {
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <EditOutlinedIcon />
           </IconButton>
-          {/* BOTÃO DE DELETAR AGORA FUNCIONAL */}
           <IconButton onClick={() => handleDelete(params.row.id)} sx={{ color: colors.redAccent[500] }}>
             <DeleteOutlineIcon />
           </IconButton>
@@ -93,10 +87,10 @@ const Team = () => {
           Criar Novo Usuário
         </Button>
       </Box>
-      <Box m="40px 0 0 0" sx={{ /* ... seus estilos sx ... */ }}>
+      <Box m="40px 0 0 0" sx={{ }}>
         <DataGrid
           autoHeight
-          rows={users} // Usa o estado 'users' em vez do mockDataTeam direto
+          rows={users} 
           columns={columns}
         />
       </Box>
