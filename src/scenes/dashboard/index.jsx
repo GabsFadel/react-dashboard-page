@@ -118,7 +118,6 @@ const Dashboard = () => {
           {messages.length === 0 ? (
             <Typography variant="h1" textAlign="center" sx={{
               fontSize: '56px', fontWeight: 'bold',
-              // --- ALTERAÇÃO APLICADA AQUI ---
               background: `linear-gradient(45deg, #FFD700, ${colors.blueAccent[500]}, #FFD700)`,
               backgroundSize: '200% 200%', backgroundClip: 'text', WebkitBackgroundClip: 'text',
               color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,

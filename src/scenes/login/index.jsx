@@ -38,9 +38,6 @@ const Login = () => {
 
     console.log("Dados de Login (JSON):", JSON.stringify(loginData, null, 2));
 
-    // Em uma aplicação real, aqui você faria a chamada para a API de autenticação.
-    // Como é uma simulação, vamos direto para o redirecionamento.
-
     // 3. Redireciona para o dashboard
     navigate("/dashboard");
   };
