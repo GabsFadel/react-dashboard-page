@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import ContactsIcon from '@mui/icons-material/Contacts';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
@@ -31,13 +30,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 }
 
 const mockChatHistory = [
-  "Monitor Fora de Quadro:...",
-  "IT Service Launch Success F...",
-  "Documento Sobre React Ho...",
-  "Como fazer café dalgona",
-  "Teste page",
-  "Melhores práticas de UI/UX",
-  "Cozinhar",
+  "Monitor Fora de Quadro:...", "IT Service Launch Success F...", "Documento Sobre React Ho...",
+  "Como fazer café dalgona", "Teste page", "Melhores práticas de UI/UX", "Cozinhar",
 ];
 
 const Sidebar = () => {
@@ -53,44 +47,63 @@ const Sidebar = () => {
     <Box
       sx={{
         display: 'flex',
-        '& .pro-sidebar-inner': { background: `${colors.primary[400]} !important` },
+        "& .pro-sidebar": {
+          transition: "width 0.3s ease-in-out !important",
+        },
+        '& .pro-sidebar-inner': {
+          background: `${colors.primary[400]} !important`,
+        },
         '& .pro-icon-wrapper': { backgroundColor: "transparent !important" },
         '& .pro-inner-item': {
           padding: "5px 35px 5px 20px !important",
-          '& .pro-item-content': { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }
+          transition: 'color 0.1s !important',
         },
         '& .pro-inner-item:hover': {
           color: "#868dfb !important",
           backgroundColor: "rgba(134, 141, 251, 0.1) !important",
           borderRadius: "8px",
         },
-        '& .pro-menu-item.active': { color: "#6870fa !important" }
+        '& .pro-menu-item.active': { color: "#6870fa !important" },
+        "& .pro-sidebar-inner::-webkit-scrollbar": { width: "6px" },
+        "& .pro-sidebar-inner::-webkit-scrollbar-track": { background: colors.primary[400] },
+        "& .pro-sidebar-inner::-webkit-scrollbar-thumb": { background: colors.grey[600], borderRadius: "10px" },
+        "& .pro-sidebar-inner::-webkit-scrollbar-thumb:hover": { background: colors.blueAccent[700] },
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
-          {/* Logo e Menu */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{ margin: "10px 0 20px 0", color: colors.grey[100] }}
           >
-            {!isCollapsed && (
-              <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
-                <Typography variant="h3" color={colors.grey[100]}>Chats</Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}><MenuOutlinedIcon /></IconButton>
-              </Box>
-            )}
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              ml="15px"
+              sx={{
+                opacity: isCollapsed ? 0 : 1,
+                transition: 'opacity 0.3s ease-in-out',
+              }}
+            >
+              <Typography variant="h3" color={colors.grey[100]}>Chats</Typography>
+              <IconButton onClick={() => setIsCollapsed(!isCollapsed)}><MenuOutlinedIcon /></IconButton>
+            </Box>
           </MenuItem>
-
-          {/* USER */}
           {!isCollapsed && (
-            <Box mb="25px">
+            <Box
+              mb="25px"
+              sx={{
+                opacity: isCollapsed ? 0 : 1,
+                transition: 'opacity 0.3s ease-in-out 0.1s',
+              }}
+            >
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user" width="100px" height="100px"
                   src={`../../assets/user.jpeg`}
-                  style={{ cursor: "pointer ", borderRadius: "50%" }}
+                  style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
               <Box textAlign="center">
@@ -104,14 +117,25 @@ const Sidebar = () => {
             </Box>
           )}
 
-          {/* Seções de Menu */}
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box
+            paddingLeft={isCollapsed ? undefined : "10%"}
+            sx={{ transition: 'padding-left 0.3s ease-in-out' }}
+          >
             <Item
               title="Nova conversa" to="/dashboard" icon={<AddCommentOutlinedIcon />}
               selected={selected} setSelected={setSelected}
             />
+            
             {!isCollapsed && (
-              <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 0" }}>
+              <Typography
+                variant="h6"
+                color={colors.grey[300]}
+                sx={{
+                  m: "15px 0 5px 0",
+                  opacity: isCollapsed ? 0 : 1,
+                  transition: 'opacity 0.3s ease-in-out 0.2s',
+                }}
+              >
                 Recentes
               </Typography>
             )}
@@ -124,6 +148,7 @@ const Sidebar = () => {
                 <Typography>{chatTitle}</Typography>
               </MenuItem>
             ))}
+
             {!isCollapsed && mockChatHistory.length > initialVisibleCount && (
               <MenuItem
                 icon={isShowingMore ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -136,7 +161,15 @@ const Sidebar = () => {
             <Box my="20px" />
             
             {!isCollapsed && (
-              <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 0" }}>
+              <Typography
+                variant="h6"
+                color={colors.grey[300]}
+                sx={{
+                  m: "15px 0 5px 0",
+                  opacity: isCollapsed ? 0 : 1,
+                  transition: 'opacity 0.3s ease-in-out 0.2s',
+                }}
+              >
                 Admin
               </Typography>
             )}
@@ -153,10 +186,6 @@ const Sidebar = () => {
               title="Criar Usuários" to="/form" icon={<AddReactionIcon />}
               selected={selected} setSelected={setSelected}
             />
-            {/* <Item
-              title="Dados Usuários" to="/contacts" icon={<ContactsIcon />}
-              selected={selected} setSelected={setSelected}
-            /> */}
           </Box>
         </Menu>
       </ProSidebar>
