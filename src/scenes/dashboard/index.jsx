@@ -8,26 +8,23 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Header from "../../components/Header";
 
-const TypingEffect = ({ fullText, typingSpeed = 30 }) => { // Velocidade aumentada para 30ms
+const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
-  const index = useRef(0); // Usando useRef para um controle mais estável do índice
+  const index = useRef(0);
 
   useEffect(() => {
-    // Reseta o estado e o índice quando um novo texto é recebido
     setDisplayedText('');
     index.current = 0;
 
     const intervalId = setInterval(() => {
-      // Garante que não ultrapasse o comprimento do texto
       if (index.current < fullText.length) {
         setDisplayedText((prev) => prev + fullText.charAt(index.current));
         index.current++;
       } else {
-        clearInterval(intervalId); // Para o intervalo quando o texto terminar
+        clearInterval(intervalId);
       }
     }, typingSpeed);
 
-    // Função de limpeza essencial para parar o intervalo se o componente for desmontado
     return () => clearInterval(intervalId);
   }, [fullText, typingSpeed]);
 
@@ -121,7 +118,8 @@ const Dashboard = () => {
           {messages.length === 0 ? (
             <Typography variant="h1" textAlign="center" sx={{
               fontSize: '56px', fontWeight: 'bold',
-              background: `linear-gradient(45deg, ${colors.blueAccent[500]}, ${colors.redAccent[500]}, ${colors.blueAccent[500]})`,
+              // --- ALTERAÇÃO APLICADA AQUI ---
+              background: `linear-gradient(45deg, #FFD700, ${colors.blueAccent[500]}, #FFD700)`,
               backgroundSize: '200% 200%', backgroundClip: 'text', WebkitBackgroundClip: 'text',
               color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,
             }}>
