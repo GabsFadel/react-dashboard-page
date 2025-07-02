@@ -7,7 +7,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Sidebar from "./scenes/global/Sidebar";
 import Team from "./scenes/team";
 import Login from "./scenes/login";
-// import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
 import ForgotPassword from "./scenes/forgot";
 import Register from "./scenes/register";
@@ -36,7 +35,6 @@ function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/form" element={<Form />} />
               <Route path="/edit-user/:id" element={<EditUser />} /> 
-              {/* <Route path="/contacts" element={<Contacts />} /> */}
             </Routes>
           </main>
         </div>
