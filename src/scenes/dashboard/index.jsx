@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Box, Typography, InputBase, IconButton, useTheme } from "@mui/material";
+import { Box, Typography, InputBase, IconButton, useTheme, Chip } from "@mui/material";
 import { keyframes } from '@emotion/react';
 import { tokens } from "../../theme";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -35,17 +35,22 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     </Typography>
   );
 };
-const blink = keyframes`
-  50% { border-color: transparent; }
-`;
+const blink = keyframes`50% { border-color: transparent; }`;
 
-const Dashboard = ({ messages, setMessages, chatId }) => {
+const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
+  // O estado das mensagens é gerenciado localmente como fallback, caso não seja passado via props
+  const [localMessages, setLocalMessages] = useState([]);
+  const messages = propMessages || localMessages;
+  const updateMessages = setMessages || setLocalMessages;
+
   const [prompt, setPrompt] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
   const endOfMessagesRef = useRef(null);
 
-  // ANIMAÇÃO DASHBOARD  
   const gradientAnimation = keyframes`
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -58,34 +63,55 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
     100% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
   `;
 
+  const handleIconClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log("Arquivo selecionado:", file);
+      setSelectedFile(file);
+    }
+    // Reseta o valor do input para permitir selecionar o mesmo arquivo novamente
+    event.target.value = null;
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+  };
+
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
-    if (trimmedPrompt === "") return;
+    if (trimmedPrompt === "" && !selectedFile) return;
 
-    const userMessage = {
-      id: Date.now(),
-      text: trimmedPrompt,
-      sender: 'user',
-    };
-    // Se 'setMessages' for passado como prop, use-o. Senão, use um estado local (fallback).
-    // Esta parte do código assume que você está implementando a lógica de "Elevar o Estado".
-    if (setMessages) {
-        setMessages(prev => [...prev, userMessage]);
+    // Cria uma lista de novas mensagens a serem adicionadas
+    let newMessages = [];
+    
+    if (trimmedPrompt) {
+      newMessages.push({ id: Date.now(), text: trimmedPrompt, sender: 'user' });
+    }
+
+    if (selectedFile) {
+      console.log(`Enviando arquivo ${selectedFile.name} junto com o prompt para o chat ID: ${chatId}`);
+      newMessages.push({ id: Date.now() + 1, text: `Arquivo anexado: ${selectedFile.name}`, sender: 'user' });
+      // Lógica de upload
+    }
+
+    if (newMessages.length > 0) {
+      updateMessages(prev => [...prev, ...newMessages]);
     }
 
     setPrompt("");
-
-    console.log(`Enviando prompt para o chat ID: ${chatId}`, { prompt: trimmedPrompt });
+    setSelectedFile(null);
 
     setTimeout(() => {
       const aiMessage = {
-        id: Date.now() + 1,
-        text: "Esta é uma resposta fixa da Orga IA. Em breve, estarei conectada a uma inteligência artificial de verdade!",
+        id: Date.now() + 2,
+        text: "Recebi sua mensagem e/ou arquivo. Em breve estarei conectada a uma inteligência artificial, e poderei analisá-los!",
         sender: 'ai',
       };
-      if (setMessages) {
-        setMessages(prev => [...prev, aiMessage]);
-      }
+      updateMessages(prev => [...prev, aiMessage]);
     }, 1000);
   };
 
@@ -96,11 +122,9 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
     }
   };
 
-  const displayMessages = messages || [];
-
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [displayMessages]);
+  }, [messages]);
 
   return (
     <Box m="20px" display="flex" flexDirection="column" height="calc(100vh - 100px)">
@@ -108,22 +132,21 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
       <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} pb={2} position="relative">
         <Box
           flexGrow={1} display="flex" flexDirection="column"
-          justifyContent={displayMessages.length === 0 ? "center" : "flex-start"}
+          justifyContent={messages.length === 0 ? "center" : "flex-start"}
           alignItems="center" sx={{ overflowY: 'auto', p: 2 }}
         >
-          {displayMessages.length === 0 ? (
+          {messages.length === 0 ? (
             <Typography variant="h1" textAlign="center" sx={{
               fontSize: '56px', fontWeight: 'bold',
               background: `linear-gradient(45deg, #FFD700, ${colors.blueAccent[500]}, #FFD700)`,
               backgroundSize: '200% 200%', backgroundClip: 'text', WebkitBackgroundClip: 'text',
-              color: 'transparent', 
-              animation: `${gradientAnimation} 4s ease infinite`,
+              color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,
             }}>
               Pergunte a Orga IA!
             </Typography>
           ) : (
             <Box width="100%" maxWidth="900px" display="flex" flexDirection="column" gap={2}>
-              {displayMessages.map(msg => (
+              {messages.map(msg => (
                 <Box
                   key={msg.id} display="flex" gap={1.5}
                   alignSelf={msg.sender === 'user' ? 'flex-end' : 'flex-start'}
@@ -153,7 +176,18 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
             </Box>
           )}
         </Box>
-        <Box width="100%" display="flex" justifyContent="center" pt={2}>
+
+        <Box width="100%" display="flex" flexDirection="column" alignItems="center" pt={2}>
+          {selectedFile && (
+            <Box mb={1}>
+              <Chip
+                label={selectedFile.name}
+                onDelete={handleRemoveFile}
+                color="primary"
+                sx={{ backgroundColor: colors.blueAccent[700] }}
+              />
+            </Box>
+          )}
           <Box width={{ xs: '95%', md: '80%' }} maxWidth="900px">
             <Box
               display="flex" alignItems="center" p={1}
@@ -167,25 +201,33 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
                 '&:focus-within': { animation: `${pulseAnimation} 2s infinite` }
               }}
             >
-              <IconButton sx={{ color: colors.grey[100] }}><AddCircleOutlineIcon /></IconButton>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+              />
+              <IconButton sx={{ color: colors.grey[100] }} onClick={handleIconClick}>
+                <AddCircleOutlineIcon />
+              </IconButton>
               <InputBase
-                fullWidth placeholder="Peça ao Orga" value={prompt}
+                fullWidth placeholder="Peça ao Orga ou anexe um arquivo" value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 onKeyPress={handleKeyPress} multiline maxRows={5}
                 sx={{
                   color: colors.grey[100], fontSize: '16px', ml: 1,
-                  '& .MuiInputBase-input::placeholder': { color: colors.grey[300], opacity: 1, },
+                  '& .MuiInputBase-input::placeholder': { color: colors.grey[300], opacity: 1 },
                 }}
               />
               <IconButton
                 onClick={handleSendPrompt}
-                disabled={prompt.trim() === ""}
+                disabled={prompt.trim() === "" && !selectedFile}
                 sx={{
                   color: colors.grey[100],
-                  backgroundColor: prompt.trim() === "" ? 'transparent' : colors.blueAccent[600],
+                  backgroundColor: (prompt.trim() === "" && !selectedFile) ? 'transparent' : colors.blueAccent[600],
                   transition: 'background-color 0.3s',
                   '&:hover': {
-                    backgroundColor: prompt.trim() === "" ? 'transparent' : colors.blueAccent[500],
+                    backgroundColor: (prompt.trim() === "" && !selectedFile) ? 'transparent' : colors.blueAccent[500],
                   }
                 }}
               >
@@ -197,6 +239,6 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
       </Box>
     </Box>
   );
-}
+};
 
 export default Dashboard;
