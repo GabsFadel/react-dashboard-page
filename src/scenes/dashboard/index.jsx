@@ -11,6 +11,7 @@ import Header from "../../components/Header";
 const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const index = useRef(0);
+
   useEffect(() => {
     setDisplayedText('');
     index.current = 0;
@@ -24,7 +25,9 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     }, typingSpeed);
     return () => clearInterval(intervalId);
   }, [fullText, typingSpeed]);
+
   const isTyping = displayedText.length < fullText.length;
+
   return (
     <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}>
       {displayedText}
@@ -32,28 +35,46 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     </Typography>
   );
 };
-const blink = keyframes`50% { border-color: transparent; }`;
+const blink = keyframes`
+  50% { border-color: transparent; }
+`;
 
-// 1. O componente agora recebe 'messages', 'setMessages', e 'chatId' como props
 const Dashboard = ({ messages, setMessages, chatId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [prompt, setPrompt] = useState("");
   const endOfMessagesRef = useRef(null);
 
-  const gradientAnimation = keyframes`...`; // Omitido por brevidade
-  const pulseAnimation = keyframes`...`; // Omitido por brevidade
+  // ANIMAÇÃO DASHBOARD  
+  const gradientAnimation = keyframes`
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  `;
+
+  const pulseAnimation = keyframes`
+    0% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
+    50% { box-shadow: 0 0 16px 4px ${colors.blueAccent[500]}; }
+    100% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
+  `;
 
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
     if (trimmedPrompt === "") return;
-    const userMessage = { id: Date.now(), text: trimmedPrompt, sender: 'user' };
-    
-    // 3. Usa a função 'setMessages' recebida via props
-    setMessages(prev => [...prev, userMessage]);
+
+    const userMessage = {
+      id: Date.now(),
+      text: trimmedPrompt,
+      sender: 'user',
+    };
+    // Se 'setMessages' for passado como prop, use-o. Senão, use um estado local (fallback).
+    // Esta parte do código assume que você está implementando a lógica de "Elevar o Estado".
+    if (setMessages) {
+        setMessages(prev => [...prev, userMessage]);
+    }
+
     setPrompt("");
 
-    // Aqui você enviaria o 'trimmedPrompt' e o 'chatId' para a API
     console.log(`Enviando prompt para o chat ID: ${chatId}`, { prompt: trimmedPrompt });
 
     setTimeout(() => {
@@ -62,8 +83,9 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
         text: "Esta é uma resposta fixa da Orga IA. Em breve, estarei conectada a uma inteligência artificial de verdade!",
         sender: 'ai',
       };
-      // 4. Também usa a função 'setMessages'
-      setMessages(prev => [...prev, aiMessage]);
+      if (setMessages) {
+        setMessages(prev => [...prev, aiMessage]);
+      }
     }, 1000);
   };
 
@@ -74,9 +96,11 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
     }
   };
 
+  const displayMessages = messages || [];
+
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [displayMessages]);
 
   return (
     <Box m="20px" display="flex" flexDirection="column" height="calc(100vh - 100px)">
@@ -84,21 +108,22 @@ const Dashboard = ({ messages, setMessages, chatId }) => {
       <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} pb={2} position="relative">
         <Box
           flexGrow={1} display="flex" flexDirection="column"
-          justifyContent={messages.length === 0 ? "center" : "flex-start"}
-          alignItems="center" sx={{ overflowY: 'auto', p: 2, transition: 'opacity 0.5s ease' }}
+          justifyContent={displayMessages.length === 0 ? "center" : "flex-start"}
+          alignItems="center" sx={{ overflowY: 'auto', p: 2 }}
         >
-          {messages.length === 0 ? (
+          {displayMessages.length === 0 ? (
             <Typography variant="h1" textAlign="center" sx={{
               fontSize: '56px', fontWeight: 'bold',
               background: `linear-gradient(45deg, #FFD700, ${colors.blueAccent[500]}, #FFD700)`,
               backgroundSize: '200% 200%', backgroundClip: 'text', WebkitBackgroundClip: 'text',
-              color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,
+              color: 'transparent', 
+              animation: `${gradientAnimation} 4s ease infinite`,
             }}>
               Pergunte a Orga IA!
             </Typography>
           ) : (
             <Box width="100%" maxWidth="900px" display="flex" flexDirection="column" gap={2}>
-              {messages.map(msg => (
+              {displayMessages.map(msg => (
                 <Box
                   key={msg.id} display="flex" gap={1.5}
                   alignSelf={msg.sender === 'user' ? 'flex-end' : 'flex-start'}
