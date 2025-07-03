@@ -11,11 +11,9 @@ import Header from "../../components/Header";
 const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const index = useRef(0);
-
   useEffect(() => {
     setDisplayedText('');
     index.current = 0;
-
     const intervalId = setInterval(() => {
       if (index.current < fullText.length) {
         setDisplayedText((prev) => prev + fullText.charAt(index.current));
@@ -24,63 +22,39 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
         clearInterval(intervalId);
       }
     }, typingSpeed);
-
     return () => clearInterval(intervalId);
   }, [fullText, typingSpeed]);
-
   const isTyping = displayedText.length < fullText.length;
-
   return (
     <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}>
       {displayedText}
-      {isTyping && (
-        <Box
-          component="span"
-          sx={{
-            animation: `${blink} 1s step-start infinite`,
-            borderLeft: '2px solid',
-            marginLeft: '2px',
-          }}
-        />
-      )}
+      {isTyping && (<Box component="span" sx={{ animation: `${blink} 1s step-start infinite`, borderLeft: '2px solid', marginLeft: '2px' }}/>)}
     </Typography>
   );
 };
+const blink = keyframes`50% { border-color: transparent; }`;
 
-const blink = keyframes`
-  50% { border-color: transparent; }
-`;
-
-const Dashboard = () => {
+// 1. O componente agora recebe 'messages', 'setMessages', e 'chatId' como props
+const Dashboard = ({ messages, setMessages, chatId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [prompt, setPrompt] = useState("");
-  const [messages, setMessages] = useState([]);
   const endOfMessagesRef = useRef(null);
 
-  const gradientAnimation = keyframes`
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  `;
-
-  const pulseAnimation = keyframes`
-    0% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
-    50% { box-shadow: 0 0 16px 4px ${colors.blueAccent[500]}; }
-    100% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
-  `;
+  const gradientAnimation = keyframes`...`; // Omitido por brevidade
+  const pulseAnimation = keyframes`...`; // Omitido por brevidade
 
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
     if (trimmedPrompt === "") return;
-
-    const userMessage = {
-      id: Date.now(),
-      text: trimmedPrompt,
-      sender: 'user',
-    };
+    const userMessage = { id: Date.now(), text: trimmedPrompt, sender: 'user' };
+    
+    // 3. Usa a função 'setMessages' recebida via props
     setMessages(prev => [...prev, userMessage]);
     setPrompt("");
+
+    // Aqui você enviaria o 'trimmedPrompt' e o 'chatId' para a API
+    console.log(`Enviando prompt para o chat ID: ${chatId}`, { prompt: trimmedPrompt });
 
     setTimeout(() => {
       const aiMessage = {
@@ -88,6 +62,7 @@ const Dashboard = () => {
         text: "Esta é uma resposta fixa da Orga IA. Em breve, estarei conectada a uma inteligência artificial de verdade!",
         sender: 'ai',
       };
+      // 4. Também usa a função 'setMessages'
       setMessages(prev => [...prev, aiMessage]);
     }, 1000);
   };
@@ -105,15 +80,12 @@ const Dashboard = () => {
 
   return (
     <Box m="20px" display="flex" flexDirection="column" height="calc(100vh - 100px)">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="Orga IA" subtitle="Bem-vindo a nossa IA!" />
-      </Box>
-
+      <Header title="Orga IA" subtitle="Bem-vindo a nossa IA!" />
       <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} pb={2} position="relative">
         <Box
           flexGrow={1} display="flex" flexDirection="column"
           justifyContent={messages.length === 0 ? "center" : "flex-start"}
-          alignItems="center" sx={{ overflowY: 'auto', p: 2 }}
+          alignItems="center" sx={{ overflowY: 'auto', p: 2, transition: 'opacity 0.5s ease' }}
         >
           {messages.length === 0 ? (
             <Typography variant="h1" textAlign="center" sx={{
@@ -156,7 +128,6 @@ const Dashboard = () => {
             </Box>
           )}
         </Box>
-
         <Box width="100%" display="flex" justifyContent="center" pt={2}>
           <Box width={{ xs: '95%', md: '80%' }} maxWidth="900px">
             <Box
