@@ -41,7 +41,6 @@ const Topbar = () => {
 
     const handleConfirmLogout = () => {
         console.log("Usuário deslogado. Redirecionando para a página de login...");
-        // Em uma aplicação real, aqui você limparia tokens de autenticação, etc.
         handleCloseDialog();
         navigate('/'); // Redireciona para a página de login
     };
@@ -70,9 +69,9 @@ const Topbar = () => {
                         <LightModeOutlinedIcon />
                     )}
                 </IconButton>
-                <IconButton>
+                {/* <IconButton>
                     <SettingsOutlinedIcon />
-                </IconButton>
+                </IconButton> */}
                 
                 {/* BOTÃO DE PERFIL COM ONCLICK */}
                 <IconButton onClick={handleProfileMenuOpen}>
