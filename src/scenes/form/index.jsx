@@ -4,18 +4,17 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { useNavigate } from "react-router-dom"; // Hook para navegação
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'; // Ícone para o botão
+import { useNavigate } from "react-router-dom"; 
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'; 
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const navigate = useNavigate(); // Hook para controlar a navegação
+  const navigate = useNavigate(); 
 
   const handleFormSubmit = (values) => {
     console.log("Novo usuário criado:", values);
-    // Após criar, pode ser uma boa ideia navegar de volta para a lista
     navigate("/team");
   };
 
@@ -47,11 +46,10 @@ const Form = () => {
 
   return (
     <Box m="20px">
-      {/* --- BOTÃO DE VOLTAR ADICIONADO AQUI --- */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="Criação de Usuário" subtitle="Crie um novo perfil para a plataforma Orga IA" />
         <Button
-          onClick={() => navigate('/team')} // Navega de volta para a lista
+          onClick={() => navigate('/team')}
           sx={{
             backgroundColor: colors.blueAccent[700],
             color: colors.grey[100],
@@ -88,10 +86,10 @@ const Form = () => {
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                mt: "30px", // Adicionado margin-top para espaçamento do header
+                mt: "30px", 
               }}
             >
-              {/* Campos do formulário (sem alterações) */}
+              {/* Campos do formulário */}
               <TextField fullWidth variant="filled" type="text" label="Nome" onBlur={handleBlur} onChange={handleChange} value={values.firstName} name="firstName" error={!!touched.firstName && !!errors.firstName} helperText={touched.firstName && errors.firstName} sx={{ gridColumn: "span 2" }} />
               <TextField fullWidth variant="filled" type="text" label="Sobrenome" onBlur={handleBlur} onChange={handleChange} value={values.lastName} name="lastName" error={!!touched.lastName && !!errors.lastName} helperText={touched.lastName && errors.lastName} sx={{ gridColumn: "span 2" }} />
               <TextField fullWidth variant="filled" type="text" label="Email" onBlur={handleBlur} onChange={handleChange} value={values.email} name="email" error={!!touched.email && !!errors.email} helperText={touched.email && errors.email} sx={{ gridColumn: "span 4" }} />

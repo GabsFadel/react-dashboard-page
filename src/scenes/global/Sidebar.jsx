@@ -76,8 +76,7 @@ const Sidebar = ({ onNewChat }) => {
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{ margin: "10px 0 20px 0", color: colors.grey[100] }}
           >
-            {/*  ANIMAÇÃO REFEITA COM TRANSITION E OPACITY */}
-            {/* O Box agora está sempre no DOM, apenas sua opacidade muda */}
+            {/* ANIMAÇÃO REFEITA COM TRANSITION E OPACITY */}
             <Box
               display="flex"
               justifyContent="space-between"
@@ -86,7 +85,6 @@ const Sidebar = ({ onNewChat }) => {
               sx={{
                 opacity: isCollapsed ? 0 : 1,
                 transition: 'opacity 0.3s ease-in-out',
-                // Impede que o elemento seja "clicável" quando invisível
                 pointerEvents: isCollapsed ? 'none' : 'auto',
               }}
             >
@@ -95,13 +93,10 @@ const Sidebar = ({ onNewChat }) => {
             </Box>
           </MenuItem>
           
-          {/* O mesmo princípio é aplicado aqui: o Box está sempre presente */}
           <Box
             mb="25px"
             sx={{
-              // A transição é aplicada aqui para um efeito consistente
               opacity: isCollapsed ? 0 : 1,
-              // Oculta completamente o elemento quando colapsado
               height: isCollapsed ? 0 : 'auto',
               overflow: 'hidden',
               transition: 'opacity 0.3s ease-in-out 0.1s, height 0.3s ease-in-out',
@@ -141,7 +136,7 @@ const Sidebar = ({ onNewChat }) => {
             >
               <Typography>Nova conversa</Typography>
             </MenuItem>
-            
+
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -166,7 +161,7 @@ const Sidebar = ({ onNewChat }) => {
               </MenuItem>
             ))}
 
-            {/* O botão "Mostrar mais/menos" */}
+            {/*"Mostrar mais/menos" */}
             <Box sx={{ opacity: isCollapsed ? 0 : 1, transition: 'opacity 0.2s', height: isCollapsed ? 0 : 'auto' }}>
               {mockChatHistory.length > initialVisibleCount && (
                 <MenuItem

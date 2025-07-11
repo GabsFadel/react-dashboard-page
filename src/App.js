@@ -1,4 +1,4 @@
-import { useState } from "react"; // 1. Importar useState
+import { useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import 'react-pro-sidebar/dist/css/styles.css';
@@ -17,17 +17,15 @@ function App() {
   const [theme, colorMode] = useMode();
   const location = useLocation();
 
-  // --- ESTADO ELEVADO PARA O APP.JS ---
   const [messages, setMessages] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null); // Para guardar o ID do chat ativo
 
   // Função para criar um novo chat
   const handleNewChat = async () => {
     console.log("Iniciando uma nova conversa...");
-    // 1. Limpa as mensagens da tela imediatamente para feedback visual
     setMessages([]);
 
-    // 2. Placeholder para a chamada de API
+    // Placeholder para a chamada de API
     try {
       // Exemplo de como seria a chamada de API
       // const response = await fetch('/api/create-chat', { method: 'POST' });
@@ -38,7 +36,7 @@ function App() {
       setActiveChatId(newChatId);
       console.log(`Nova conversa criada com ID: ${newChatId}`);
 
-      // Aqui você poderia, por exemplo, adicionar a nova conversa à lista da Sidebar
+      // Adicionar a nova conversa à lista da Sidebar
       // (isso exigiria elevar também o estado do 'mockChatHistory')
 
     } catch (error) {

@@ -29,7 +29,7 @@ const ForgotPassword = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log('Enviando link de recuperação para:', data.get('email'));
-    // Lógica para chamar a API de recuperação de senha aqui
+    // Lógica para chamar a API de recuperação de senha
   };
 
   return (

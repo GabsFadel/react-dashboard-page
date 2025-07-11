@@ -41,7 +41,6 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   
-  // O estado das mensagens é gerenciado localmente como fallback, caso não seja passado via props
   const [localMessages, setLocalMessages] = useState([]);
   const messages = propMessages || localMessages;
   const updateMessages = setMessages || setLocalMessages;
@@ -73,7 +72,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
       console.log("Arquivo selecionado:", file);
       setSelectedFile(file);
     }
-    // Reseta o valor do input para permitir selecionar o mesmo arquivo novamente
+    // Reseta o valor do input para permitir selecionar o mesmo arquivo
     event.target.value = null;
   };
 
@@ -95,7 +94,6 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
     if (selectedFile) {
       console.log(`Enviando arquivo ${selectedFile.name} junto com o prompt para o chat ID: ${chatId}`);
       newMessages.push({ id: Date.now() + 1, text: `Arquivo anexado: ${selectedFile.name}`, sender: 'user' });
-      // Lógica de upload
     }
 
     if (newMessages.length > 0) {
