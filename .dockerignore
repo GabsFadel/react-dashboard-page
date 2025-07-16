@@ -1,0 +1,14 @@
+# Ignora as dependências locais, pois elas serão instaladas dentro do contêiner
+node_modules
+
+# Ignora a pasta de build local, se existir
+build
+
+# Ignora arquivos de configuração do Docker
+Dockerfile
+docker-compose.yml
+
+# Ignora o diretório do Git
+.git
+
+# Ignora o log d
