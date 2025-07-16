@@ -8,10 +8,12 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Header from "../../components/Header";
 
+// Efeito que faz a digitação da IA na tela
 const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const index = useRef(0);
 
+  // Reseta o texto sempre que um novo `fullText` é passado para o componente.
   useEffect(() => {
     setDisplayedText('');
     index.current = 0;
@@ -26,6 +28,7 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     return () => clearInterval(intervalId);
   }, [fullText, typingSpeed]);
 
+  // Verifica se a animação ainda está em andamento para exibir o cursor.
   const isTyping = displayedText.length < fullText.length;
 
   return (
@@ -35,6 +38,7 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     </Typography>
   );
 };
+
 const blink = keyframes`50% { border-color: transparent; }`;
 
 const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
@@ -100,9 +104,11 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
       updateMessages(prev => [...prev, ...newMessages]);
     }
 
+    // Limpa os campos de input do frontend após o envio.
     setPrompt("");
     setSelectedFile(null);
 
+    // Mock que simula a resposta da IA 
     setTimeout(() => {
       const aiMessage = {
         id: Date.now() + 2,
@@ -113,6 +119,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
     }, 1000);
   };
 
+  // Permite que o prompt seja enviado com a tecla enter 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
