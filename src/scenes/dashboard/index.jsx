@@ -91,7 +91,10 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
     // Cria uma lista de novas mensagens a serem adicionadas
     let newMessages = [];
     
+    // Se houver um prompt de texto, adicione-o às mensagens.
     if (trimmedPrompt) {
+      // Log do prompt de texto enviado ---
+      console.log(`Enviando prompt de texto para o chat ID: ${chatId}`, { prompt: trimmedPrompt });
       newMessages.push({ id: Date.now(), text: trimmedPrompt, sender: 'user' });
     }
 

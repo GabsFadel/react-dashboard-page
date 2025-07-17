@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, TextField, Typography, useTheme } from "@mui/material";
 import { keyframes } from '@emotion/react';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Link as RouterLink, useNavigate } from "react-router-dom"; 
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 
+// Animações permanecem as mesmas
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -18,32 +19,25 @@ const fadeInUp = keyframes`
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-  }`;
+  }
+`;
 
 const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const loginData = {
-      email: email,
-      password: password,
-    };
-
+    const loginData = { email, password };
     console.log("Dados de Login (JSON):", JSON.stringify(loginData, null, 2));
-
-    // 3. Redireciona para o dashboard
     navigate("/dashboard");
   };
 
   return (
-    <Box
+    <Box // Container de fundo (sem alterações)
       sx={{
         minHeight: '100vh',
         width: '100%',
@@ -55,11 +49,13 @@ const Login = () => {
         animation: `${gradientAnimation} 15s ease infinite`,
       }}
     >
-      <Box
+      <Box // Card do formulário
         sx={{
           maxWidth: 400,
           width: '100%',
-          p: 4,
+          // MELHORIA 1: Adiciona margem no mobile e ajusta o padding
+          m: { xs: 2, sm: 3 },
+          p: { xs: 2, sm: 4 },
           backgroundColor: 'rgba(12, 16, 27, 0.5)',
           backdropFilter: 'blur(10px)',
           border: `1px solid ${colors.primary[700]}`,
@@ -76,7 +72,13 @@ const Login = () => {
         }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant="h4" fontWeight="bold" sx={{ textAlign: "center", mb: 3, color: colors.grey[100] }}>
+        <Typography component='h1' variant="h4" fontWeight="bold" sx={{
+          textAlign: "center",
+          mb: 3,
+          color: colors.grey[100],
+          // MELHORIA 2: Ajusta o tamanho da fonte em telas menores
+          fontSize: { xs: '1.75rem', sm: '2.125rem' }
+        }}>
           Login
         </Typography>
 
@@ -84,7 +86,7 @@ const Login = () => {
           <TextField
             variant="standard"
             placeholder="Email"
-            name="email" 
+            name="email"
             fullWidth
             required
             autoFocus
@@ -129,9 +131,7 @@ const Login = () => {
             type="submit"
             fullWidth
             sx={{
-              mt: 3,
-              mb: 2,
-              p: '12px',
+              mt: 3, mb: 2, p: '12px',
               fontWeight: 'bold',
               color: colors.grey[100],
               background: `linear-gradient(45deg, ${colors.greenAccent[500]} 30%, ${colors.blueAccent[500]} 90%)`,
@@ -147,14 +147,22 @@ const Login = () => {
             Sign In
           </Button>
 
-          <Grid container justifyContent="space-between">
+          {/* MELHORIA 3: Grid responsivo para os links */}
+          <Grid container
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: { xs: 1, sm: 0 }
+            }}
+          >
             <Grid item>
-              <RouterLink to="/forgot" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
+              <RouterLink to="/forgot" style={{ color: colors.blueAccent[400], textDecoration: 'none', fontSize: '0.9rem' }}>
                 Esqueceu sua senha?
               </RouterLink>
             </Grid>
             <Grid item>
-              <RouterLink to="/register" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
+              <RouterLink to="/register" style={{ color: colors.blueAccent[400], textDecoration: 'none', fontSize: '0.9rem' }}>
                 Registrar-se
               </RouterLink>
             </Grid>

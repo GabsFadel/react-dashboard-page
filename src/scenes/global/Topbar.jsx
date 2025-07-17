@@ -2,12 +2,9 @@ import { Box, IconButton, useTheme, Menu, MenuItem, Dialog, DialogActions, Dialo
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ColorModeContext, tokens } from "../../theme";
-import InputBase from '@mui/material/InputBase';
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+// import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+// import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 const Topbar = () => {
@@ -16,12 +13,12 @@ const Topbar = () => {
     const colorMode = useContext(ColorModeContext);
     const navigate = useNavigate();
 
-    // ESTADO PARA O MENU E O DIALOG 
+    // Estado para o menu e o dialog 
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const isMenuOpen = Boolean(anchorEl);
 
-    //  HANDLERS PARA O MENU E DIALOG 
+    // Handlers para o menu e dialog 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -32,7 +29,7 @@ const Topbar = () => {
 
     const handleOpenDialog = () => {
         setOpenDialog(true);
-        handleMenuClose(); 
+        handleMenuClose();
     };
 
     const handleCloseDialog = () => {
@@ -42,38 +39,26 @@ const Topbar = () => {
     const handleConfirmLogout = () => {
         console.log("Usuário deslogado. Redirecionando para a página de login...");
         handleCloseDialog();
-        navigate('/'); // Redireciona para a página de login
+        navigate('/');
     };
 
-
     return (
-        <Box display="flex" justifyContent="space-between" p={2}>
-            {/* SEARCH BAR */}
-            <Box
-                display="flex"
-                backgroundColor={colors.primary[400]}
-                borderRadius="3px"
-            >
-                <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-                <IconButton type="button" sx={{ p: 1 }}>
-                    <SearchIcon />
-                </IconButton>
-            </Box>
-
+        // Layout ajustado e padding responsivo
+        <Box 
+            display="flex" 
+            justifyContent="flex-end" // Alinhado à direita, já que não há mais a busca na esquerda
+            p={{ xs: 1, sm: 2 }} // Padding menor em telas pequenas
+        >
             {/* ICONS */}
             <Box display="flex">
-                <IconButton onClick={colorMode.toggleColorMode}>
+                {/* <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === 'dark' ? (
                         <DarkModeOutlinedIcon />
                     ) : (
                         <LightModeOutlinedIcon />
                     )}
-                </IconButton>
-                {/* <IconButton>
-                    <SettingsOutlinedIcon />
                 </IconButton> */}
                 
-                {/* BOTÃO DE PERFIL COM ONCLICK */}
                 <IconButton onClick={handleProfileMenuOpen}>
                     <PersonOutlinedIcon />
                 </IconButton>
@@ -82,18 +67,13 @@ const Topbar = () => {
             {/* MENU DROPDOWN */}
             <Menu
                 anchorEl={anchorEl}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 id="primary-search-account-menu"
                 keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={isMenuOpen}
                 onClose={handleMenuClose}
+                sx={{ '& .MuiPaper-root': { backgroundColor: colors.primary[400] }}}
             >
                 <MenuItem onClick={handleOpenDialog}>
                     <LogoutOutlinedIcon sx={{ mr: 1 }} />
@@ -101,20 +81,21 @@ const Topbar = () => {
                 </MenuItem>
             </Menu>
 
-            {/* (DIALOG) */}
+            {/* DIALOG DE CONFIRMAÇÃO */}
             <Dialog
                 open={openDialog}
                 onClose={handleCloseDialog}
                 aria-labelledby="alert-dialog-title"
+                sx={{ '& .MuiPaper-root': { backgroundColor: colors.primary[400] }}}
             >
                 <DialogTitle id="alert-dialog-title">
                     {"Gostaria de sair?"}
                 </DialogTitle>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog} color="secondary">
+                    <Button onClick={handleCloseDialog} sx={{ color: colors.grey[100] }}>
                         Não
                     </Button>
-                    <Button onClick={handleConfirmLogout} color="secondary" autoFocus>
+                    <Button onClick={handleConfirmLogout} sx={{ color: colors.grey[100] }} autoFocus>
                         Sim
                     </Button>
                 </DialogActions>

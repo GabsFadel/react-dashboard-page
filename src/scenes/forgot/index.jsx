@@ -2,8 +2,9 @@ import { Avatar, Box, Button, Grid, TextField, Typography, useTheme } from "@mui
 import { keyframes } from '@emotion/react';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { Link as RouterLink } from "react-router-dom";
-import { tokens } from "../../theme"; 
+import { tokens } from "../../theme";
 
+// Animações permanecem as mesmas
 const gradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -29,11 +30,10 @@ const ForgotPassword = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log('Enviando link de recuperação para:', data.get('email'));
-    // Lógica para chamar a API de recuperação de senha
   };
 
   return (
-    <Box
+    <Box // Container de fundo (sem alterações)
       sx={{
         minHeight: '100vh',
         width: '100%',
@@ -45,12 +45,13 @@ const ForgotPassword = () => {
         animation: `${gradientAnimation} 15s ease infinite`,
       }}
     >
-      {/* Container para o formulário */}
-      <Box
+      <Box // Card do formulário
         sx={{
           maxWidth: 400,
           width: '100%',
-          p: 4,
+          // MELHORIA 1: Padding e margem responsivos
+          m: { xs: 2, sm: 3 },
+          p: { xs: 2, sm: 4 },
           backgroundColor: 'rgba(12, 16, 27, 0.5)',
           backdropFilter: 'blur(10px)',
           border: `1px solid ${colors.primary[700]}`,
@@ -65,15 +66,25 @@ const ForgotPassword = () => {
           height: 56,
           backgroundColor: colors.blueAccent[600],
         }}>
-          <EmailOutlinedIcon /> 
+          <EmailOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant="h4" fontWeight="bold" sx={{ textAlign: "center", color: colors.grey[100] }}>
+        <Typography component='h1' variant="h4" fontWeight="bold" sx={{
+          textAlign: "center",
+          color: colors.grey[100],
+          // MELHORIA 2: Tamanho de fonte do título responsivo
+          fontSize: { xs: '1.6rem', sm: '2.125rem' }
+        }}>
           Recuperar Senha
         </Typography>
-        <Typography variant="body2" sx={{ textAlign: "center", mt: 1, mb: 3, color: colors.grey[300] }}>
+        <Typography variant="body2" sx={{
+          textAlign: "center",
+          mt: 1,
+          mb: 3,
+          color: colors.grey[300]
+        }}>
           Insira seu e-mail e enviaremos um link para você voltar a acessar sua conta.
         </Typography>
-        
+
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             variant="standard"
@@ -82,7 +93,7 @@ const ForgotPassword = () => {
             fullWidth
             required
             autoFocus
-            sx={{ 
+            sx={{
               mb: 2,
               '& .MuiInput-underline:before': { borderBottomColor: colors.grey[500] },
               '& .MuiInput-underline:hover:not(.Mui-disabled):before': { borderBottomColor: colors.blueAccent[400] },
@@ -91,14 +102,12 @@ const ForgotPassword = () => {
             }}
             InputLabelProps={{ style: { color: colors.grey[300] } }}
           />
-          
+
           <Button
             type="submit"
             fullWidth
             sx={{
-              mt: 3,
-              mb: 2,
-              p: '12px',
+              mt: 3, mb: 2, p: '12px',
               fontWeight: 'bold',
               color: colors.grey[100],
               background: `linear-gradient(45deg, ${colors.greenAccent[500]} 30%, ${colors.blueAccent[500]} 90%)`,
@@ -113,10 +122,15 @@ const ForgotPassword = () => {
           >
             Enviar Link de Recuperação
           </Button>
-          
+
           <Grid container justifyContent="center">
             <Grid item>
-              <RouterLink to="/" style={{ color: colors.blueAccent[400], textDecoration: 'none' }}>
+              {/* MELHORIA 3: Adiciona um tamanho de fonte menor para o link */}
+              <RouterLink to="/" style={{
+                color: colors.blueAccent[400],
+                textDecoration: 'none',
+                fontSize: '0.9rem'
+              }}>
                 Lembrou a senha? Voltar para o Login
               </RouterLink>
             </Grid>
