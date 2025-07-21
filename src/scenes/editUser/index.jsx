@@ -1,15 +1,14 @@
 import { Box, Button, TextField, MenuItem, Typography, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { useParams, useNavigate } from "react-router-dom";
 import { mockDataTeam } from "../../data/mockData";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'; 
 
-const EditUser = () => {
-  const isNonMobile = useMediaQuery("(min-width:600px)");
+// 1. O componente agora recebe a prop 'isMobile'
+const EditUser = ({ isMobile }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
@@ -59,8 +58,15 @@ const EditUser = () => {
   });
 
   return (
-    <Box m="20px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+    <Box m={isMobile ? "10px" : "20px"}>
+      {/* 2. O cabeçalho agora se adapta a telas pequenas */}
+      <Box 
+        display="flex" 
+        flexDirection={isMobile ? "column" : "row"}
+        justifyContent="space-between" 
+        alignItems={isMobile ? "flex-start" : "center"}
+        gap={isMobile ? 2 : 0}
+      >
         <Header title="EDITAR USUÁRIO" subtitle={`Editando o perfil de ${userToEdit.name}`} />
         <Button
           onClick={() => navigate('/team')} 
@@ -70,6 +76,7 @@ const EditUser = () => {
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
+            width: isMobile ? "100%" : "auto",
             '&:hover': {
               backgroundColor: colors.blueAccent[600],
             }
@@ -92,23 +99,126 @@ const EditUser = () => {
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" }, mt: "30px" }}
+              sx={{ 
+                // 3. A regra do grid agora usa 'isMobile' para tornar os campos responsivos
+                "& > div": { gridColumn: isMobile ? "span 4" : undefined },
+                mt: "30px" 
+              }}
             >
-              <TextField fullWidth variant="filled" type="text" label="Nome" onBlur={handleBlur} onChange={handleChange} value={values.firstName} name="firstName" error={!!touched.firstName && !!errors.firstName} helperText={touched.firstName && errors.firstName} sx={{ gridColumn: "span 2" }} />
-              <TextField fullWidth variant="filled" type="text" label="Sobrenome" onBlur={handleBlur} onChange={handleChange} value={values.lastName} name="lastName" error={!!touched.lastName && !!errors.lastName} helperText={touched.lastName && errors.lastName} sx={{ gridColumn: "span 2" }} />
-              <TextField fullWidth variant="filled" type="text" label="Email" onBlur={handleBlur} onChange={handleChange} value={values.email} name="email" error={!!touched.email && !!errors.email} helperText={touched.email && errors.email} sx={{ gridColumn: "span 4" }} />
-              <TextField fullWidth variant="filled" type="password" label="Nova Senha (opcional)" onBlur={handleBlur} onChange={handleChange} value={values.password} name="password" error={!!touched.password && !!errors.password} helperText={touched.password && errors.password} sx={{ gridColumn: "span 2" }} />
-              <TextField fullWidth variant="filled" type="password" label="Confirmar Nova Senha" onBlur={handleBlur} onChange={handleChange} value={values.confirmPassword} name="confirmPassword" error={!!touched.confirmPassword && !!errors.confirmPassword} helperText={touched.confirmPassword && errors.confirmPassword} sx={{ gridColumn: "span 2" }} />
-              <TextField fullWidth variant="filled" type="text" label="Número de Telefone" onBlur={handleBlur} onChange={handleChange} value={values.contact} name="contact" error={!!touched.contact && !!errors.contact} helperText={touched.contact && errors.contact} sx={{ gridColumn: "span 4" }} />
-              <TextField fullWidth variant="filled" type="number" label="Idade" onBlur={handleBlur} onChange={handleChange} value={values.age} name="age" error={!!touched.age && !!errors.age} helperText={touched.age && errors.age} sx={{ gridColumn: "span 2" }} />
-              <TextField fullWidth variant="filled" select label="Nível de Acesso" value={values.access} onChange={handleChange} onBlur={handleBlur} name="access" error={!!touched.access && !!errors.access} helperText={touched.access && errors.access} sx={{ gridColumn: "span 2" }}>
+              {/* Para campos que devem ficar lado a lado no desktop, aplicamos a lógica de novo */}
+              <TextField 
+                  fullWidth variant="filled" 
+                  type="text" 
+                  label="Nome" 
+                  onBlur={handleBlur} 
+                  onChange={handleChange} 
+                  value={values.firstName} 
+                  name="firstName" 
+                  error={!!touched.firstName && !!errors.firstName} 
+                  helperText={touched.firstName && errors.firstName} 
+                    sx={{ gridColumn: isMobile ? "span 4" : "span 2" }} 
+              />
+              <TextField 
+                  fullWidth 
+                  variant="filled" 
+                  type="text" label="Sobrenome" 
+                  onBlur={handleBlur} 
+                  onChange={handleChange} 
+                  value={values.lastName} 
+                  name="lastName" 
+                  error={!!touched.lastName && !!errors.lastName} 
+                  helperText={touched.lastName && errors.lastName} 
+                    sx={{ gridColumn: isMobile ? "span 4" : "span 2" }} 
+              />
+              {/* Campos de largura total se adaptam automaticamente com a regra do sx acima */}
+              <TextField 
+                  fullWidth 
+                  variant="filled" 
+                  type="text" label="Email" 
+                  onBlur={handleBlur} 
+                  onChange={handleChange} 
+                  value={values.email} 
+                  name="email" 
+                  error={!!touched.email && !!errors.email} 
+                  helperText={touched.email && errors.email} 
+                    sx={{ gridColumn: "span 4" }} 
+              />
+              <TextField 
+                  fullWidth 
+                  variant="filled" 
+                  type="password" 
+                  label="Nova Senha (opcional)"
+                  onBlur={handleBlur} 
+                  onChange={handleChange} 
+                  value={values.password} 
+                  name="password" 
+                  error={!!touched.password && !!errors.password} 
+                  helperText={touched.password && errors.password} 
+                    sx={{ gridColumn: isMobile ? "span 4" : "span 2" }} 
+              />
+              <TextField 
+                  fullWidth 
+                  variant="filled" 
+                  type="password" 
+                  label="Confirmar Nova Senha" 
+                  onBlur={handleBlur} 
+                  onChange={handleChange} 
+                  value={values.confirmPassword} 
+                  name="confirmPassword" 
+                  error={!!touched.confirmPassword && !!errors.confirmPassword} 
+                  helperText={touched.confirmPassword && errors.confirmPassword} 
+                    sx={{ gridColumn: isMobile ? "span 4" : "span 2" }} 
+              />
+              <TextField 
+                  fullWidth 
+                  variant="filled" 
+                  type="text" 
+                  label="Número de Telefone" 
+                  onBlur={handleBlur} 
+                  onChange={handleChange} 
+                  value={values.contact} 
+                  name="contact" 
+                  error={!!touched.contact && !!errors.contact} 
+                  helperText={touched.contact && errors.contact} 
+                    sx={{ gridColumn: "span 4" }} 
+              />
+              <TextField 
+                  fullWidth 
+                  variant="filled" 
+                  type="number" 
+                  label="Idade" 
+                  onBlur={handleBlur} 
+                  onChange={handleChange} 
+                  value={values.age} 
+                  name="age" 
+                  error={!!touched.age && !!errors.age} 
+                  helperText={touched.age && errors.age} 
+                    sx={{ gridColumn: isMobile ? "span 4" : "span 2" }} 
+              />
+              <TextField 
+                  fullWidth 
+                  variant="filled" 
+                  select label="Nível de Acesso" 
+                  value={values.access} 
+                  onChange={handleChange} 
+                  onBlur={handleBlur} 
+                  name="access" 
+                  error={!!touched.access && !!errors.access} 
+                  helperText={touched.access && errors.access} 
+                    sx={{ gridColumn: isMobile ? "span 4" : "span 2" }}>
                 <MenuItem value="user">User</MenuItem>
                 <MenuItem value="manager">Manager</MenuItem>
                 <MenuItem value="admin">Admin</MenuItem>
               </TextField>
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" sx={{ backgroundColor: colors.greenAccent[600], color: colors.grey[100], fontSize: "14px", fontWeight: "bold", padding: "10px 20px", '&:hover': { backgroundColor: colors.greenAccent[700] } }}>
+              <Button type="submit" 
+                  sx={{ backgroundColor: colors.greenAccent[600], 
+                        color: colors.grey[100], 
+                        fontSize: "14px", 
+                        fontWeight: "bold", 
+                        padding: "10px 20px", '&:hover': 
+                          { backgroundColor: colors.greenAccent[700] } }}>
                 Salvar Alterações
               </Button>
             </Box>

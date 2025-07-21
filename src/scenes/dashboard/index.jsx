@@ -8,12 +8,10 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Header from "../../components/Header";
 
-// Efeito que faz a digitação da IA na tela
+// --- COMPONENTE TypingEffect (sem alterações) ---
 const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const index = useRef(0);
-
-  // Reseta o texto sempre que um novo `fullText` é passado para o componente.
   useEffect(() => {
     setDisplayedText('');
     index.current = 0;
@@ -21,16 +19,11 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
       if (index.current < fullText.length) {
         setDisplayedText((prev) => prev + fullText.charAt(index.current));
         index.current++;
-      } else {
-        clearInterval(intervalId);
-      }
+      } else { clearInterval(intervalId); }
     }, typingSpeed);
     return () => clearInterval(intervalId);
   }, [fullText, typingSpeed]);
-
-  // Verifica se a animação ainda está em andamento para exibir o cursor.
   const isTyping = displayedText.length < fullText.length;
-
   return (
     <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}>
       {displayedText}
@@ -38,10 +31,9 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     </Typography>
   );
 };
-
 const blink = keyframes`50% { border-color: transparent; }`;
 
-const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
+const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   
@@ -59,13 +51,13 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   `;
-
   const pulseAnimation = keyframes`
     0% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
     50% { box-shadow: 0 0 16px 4px ${colors.blueAccent[500]}; }
     100% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
   `;
 
+  // --- FUNÇÕES DE MANIPULAÇÃO RESTAURADAS ---
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -76,7 +68,6 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
       console.log("Arquivo selecionado:", file);
       setSelectedFile(file);
     }
-    // Reseta o valor do input para permitir selecionar o mesmo arquivo
     event.target.value = null;
   };
 
@@ -88,30 +79,22 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
     const trimmedPrompt = prompt.trim();
     if (trimmedPrompt === "" && !selectedFile) return;
 
-    // Cria uma lista de novas mensagens a serem adicionadas
     let newMessages = [];
-    
-    // Se houver um prompt de texto, adicione-o às mensagens.
     if (trimmedPrompt) {
-      // Log do prompt de texto enviado ---
       console.log(`Enviando prompt de texto para o chat ID: ${chatId}`, { prompt: trimmedPrompt });
       newMessages.push({ id: Date.now(), text: trimmedPrompt, sender: 'user' });
     }
-
     if (selectedFile) {
       console.log(`Enviando arquivo ${selectedFile.name} junto com o prompt para o chat ID: ${chatId}`);
       newMessages.push({ id: Date.now() + 1, text: `Arquivo anexado: ${selectedFile.name}`, sender: 'user' });
     }
-
     if (newMessages.length > 0) {
       updateMessages(prev => [...prev, ...newMessages]);
     }
 
-    // Limpa os campos de input do frontend após o envio.
     setPrompt("");
     setSelectedFile(null);
 
-    // Mock que simula a resposta da IA 
     setTimeout(() => {
       const aiMessage = {
         id: Date.now() + 2,
@@ -122,7 +105,6 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
     }, 1000);
   };
 
-  // Permite que o prompt seja enviado com a tecla enter 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -135,7 +117,12 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
   }, [messages]);
 
   return (
-    <Box m="20px" display="flex" flexDirection="column" height="calc(100vh - 100px)">
+    <Box 
+      m={isMobile ? "10px" : "20px"} 
+      display="flex" 
+      flexDirection="column" 
+      height={isMobile ? "calc(100vh - 80px)" : "calc(100vh - 100px)"}
+    >
       <Header title="Orga IA" subtitle="Bem-vindo a nossa IA!" />
       <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} pb={2} position="relative">
         <Box
@@ -144,19 +131,26 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
           alignItems="center" sx={{ overflowY: 'auto', p: 2 }}
         >
           {messages.length === 0 ? (
-            <Typography variant="h1" textAlign="center" sx={{
-              fontSize: '56px', fontWeight: 'bold',
-              background: `linear-gradient(45deg, #FFD700, ${colors.blueAccent[500]}, #FFD700)`,
-              backgroundSize: '200% 200%', backgroundClip: 'text', WebkitBackgroundClip: 'text',
-              color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,
-            }}>
+            <Typography 
+              variant={isMobile ? "h2" : "h1"}
+              textAlign="center" 
+              sx={{
+                fontSize: isMobile ? '32px' : '56px',
+                fontWeight: 'bold',
+                background: `linear-gradient(45deg, #FFD700, ${colors.blueAccent[500]}, #FFD700)`,
+                backgroundSize: '200% 200%', backgroundClip: 'text', WebkitBackgroundClip: 'text',
+                color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,
+              }}
+            >
               Pergunte a Orga IA!
             </Typography>
           ) : (
             <Box width="100%" maxWidth="900px" display="flex" flexDirection="column" gap={2}>
               {messages.map(msg => (
                 <Box
-                  key={msg.id} display="flex" gap={1.5}
+                  key={msg.id}
+                  display="flex"
+                  gap={isMobile ? 1 : 1.5}
                   alignSelf={msg.sender === 'user' ? 'flex-end' : 'flex-start'}
                   flexDirection={msg.sender === 'user' ? 'row-reverse' : 'row'}
                 >
@@ -196,7 +190,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
               />
             </Box>
           )}
-          <Box width={{ xs: '95%', md: '80%' }} maxWidth="900px">
+          <Box width={{ xs: '95%', sm: '90%', md: '80%' }} maxWidth="900px">
             <Box
               display="flex" alignItems="center" p={1}
               sx={{
@@ -209,12 +203,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId }) => {
                 '&:focus-within': { animation: `${pulseAnimation} 2s infinite` }
               }}
             >
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-              />
+              <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
               <IconButton sx={{ color: colors.grey[100] }} onClick={handleIconClick}>
                 <AddCircleOutlineIcon />
               </IconButton>

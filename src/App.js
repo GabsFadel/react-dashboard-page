@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { ColorModeContext, useMode } from "./theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, useTheme, useMediaQuery } from "@mui/material";
 import 'react-pro-sidebar/dist/css/styles.css';
 import Topbar from "./scenes/global/Topbar";
 import Dashboard from "./scenes/dashboard";
@@ -13,67 +13,72 @@ import ForgotPassword from "./scenes/forgot";
 import Register from "./scenes/register";
 import EditUser from "./scenes/editUser";
 
-function App() {
-  const [theme, colorMode] = useMode();
+// Componente interno para o layout principal da aplicação
+const MainLayout = () => {
+  const theme = useTheme();
   const location = useLocation();
 
+  // --- LÓGICA DE RESPONSIVIDADE E ESTADO CENTRALIZADOS ---
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile); // A sidebar começa fechada no mobile
   const [messages, setMessages] = useState([]);
-  const [activeChatId, setActiveChatId] = useState(null); // Para guardar o ID do chat ativo
+  const [activeChatId, setActiveChatId] = useState(null);
 
-  // Função para criar um novo chat
   const handleNewChat = async () => {
-    console.log("Iniciando uma nova conversa...");
     setMessages([]);
-
-    // Placeholder para a chamada de API
-    try {
-      // Exemplo de como seria a chamada de API
-      // const response = await fetch('/api/create-chat', { method: 'POST' });
-      // const data = await response.json();
-      // const newChatId = data.chatId;
-
-      const newChatId = `chat_${Date.now()}`; // Simulando um novo ID de chat
-      setActiveChatId(newChatId);
-      console.log(`Nova conversa criada com ID: ${newChatId}`);
-
-      // Adicionar a nova conversa à lista da Sidebar
-      // (isso exigiria elevar também o estado do 'mockChatHistory')
-
-    } catch (error) {
-      console.error("Erro ao criar nova conversa:", error);
-    }
+    const newChatId = `chat_${Date.now()}`;
+    setActiveChatId(newChatId);
+    console.log(`Nova conversa criada com ID: ${newChatId}`);
   };
 
   const standaloneRoutes = ["/", "/forgot", "/register"];
   const isStandaloneRoute = standaloneRoutes.includes(location.pathname);
 
+  if (isStandaloneRoute) {
+    // Se for uma rota standalone, renderiza apenas o conteúdo da rota
+    return (
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    );
+  }
+
+  // Se não for standalone, renderiza o layout completo
+  return (
+    <div className="app">
+      <Sidebar 
+        isMobile={isMobile}
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+        onNewChat={handleNewChat} 
+      />
+      <main className="content">
+        <Topbar setIsSidebarOpen={setIsSidebarOpen} />
+        <Routes>
+          <Route 
+            path="/dashboard" 
+            element={<Dashboard messages={messages} setMessages={setMessages} chatId={activeChatId} isMobile={isMobile} />} 
+          />
+          <Route path="/team" element={<Team isMobile={isMobile} />} />
+          <Route path="/form" element={<Form isMobile={isMobile} />} />
+          <Route path="/edit-user/:id" element={<EditUser isMobile={isMobile} />} /> 
+        </Routes>
+      </main>
+    </div>
+  );
+};
+
+
+function App() {
+  const [theme, colorMode] = useMode();
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="app">
-          {/* A Sidebar agora recebe a função onNewChat como prop */}
-          {!isStandaloneRoute && <Sidebar onNewChat={handleNewChat} />}
-          
-          <main className="content">
-            {!isStandaloneRoute && <Topbar />}
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/forgot" element={<ForgotPassword />} />
-              <Route path="/register" element={<Register />} />
-              
-              {/* A Dashboard agora recebe o estado e a função de atualizar como props */}
-              <Route 
-                path="/dashboard" 
-                element={<Dashboard messages={messages} setMessages={setMessages} chatId={activeChatId} />} 
-              />
-              
-              <Route path="/team" element={<Team />} />
-              <Route path="/form" element={<Form />} />
-              <Route path="/edit-user/:id" element={<EditUser />} /> 
-            </Routes>
-          </main>
-        </div>
+        <MainLayout />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
