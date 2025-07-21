@@ -19,7 +19,7 @@ const MainLayout = () => {
   const location = useLocation();
 
   // --- LÓGICA DE RESPONSIVIDADE E ESTADO CENTRALIZADOS ---
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md", "sm", "xs"));
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile); // A sidebar começa fechada no mobile
   const [messages, setMessages] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
