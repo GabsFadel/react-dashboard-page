@@ -8,7 +8,7 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Header from "../../components/Header";
 
-// --- COMPONENTE TypingEffect (sem alterações) ---
+// --- COMPONENTE TypingEffect ---
 const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const index = useRef(0);
@@ -57,7 +57,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
     100% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
   `;
 
-  // --- FUNÇÕES DE MANIPULAÇÃO RESTAURADAS ---
+  // --- FUNÇÕES DE MANIPULAÇÃO  ---
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -98,7 +98,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
     setTimeout(() => {
       const aiMessage = {
         id: Date.now() + 2,
-        text: "Recebi sua mensagem e/ou arquivo. Em breve estarei conectada a uma inteligência artificial, e poderei analisá-los!",
+        text: "Recebi sua mensagem. Em breve estarei conectada a uma inteligência artificial real!",
         sender: 'ai',
       };
       updateMessages(prev => [...prev, aiMessage]);
