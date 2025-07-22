@@ -40,7 +40,6 @@ const Team = ({ isMobile }) => {
       headerName: "Access Level",
       flex: 1,
       renderCell: ({ row: { access } }) => (
-        // --- CORREÇÃO APLICADA AQUI ---
         <Box
           // Removido 'width="80%"' para permitir que o box se ajuste ao conteúdo.
           // Ajustado o padding para '5px 10px' para dar um espaçamento horizontal mais agradável.
