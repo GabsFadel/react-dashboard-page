@@ -156,13 +156,13 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 >
                   <Box sx={{
                     borderRadius: '50%',
-                    backgroundColor: msg.sender === 'user' ? colors.grey[100] : colors.grey[200],
+                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[800] : colors.greenAccent[800],
                     p: 1, display: 'flex', alignSelf: 'flex-start'
                   }}>
                     {msg.sender === 'user' ? <AccountCircleIcon /> : <SmartToyIcon />}
                   </Box>
                   <Box sx={{
-                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[100] : colors.primary[200],
+                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[700] : colors.primary[600],
                     color: colors.grey[100], p: '10px 15px',
                     borderRadius: '15px', maxWidth: '600px',
                   }}>
