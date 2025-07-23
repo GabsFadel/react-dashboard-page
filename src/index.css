@@ -1,41 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
 
+/* Garante que a base da aplicação ocupe toda a tela */
 html,
 body,
-#root,
-.app { 
+#root {
   height: 100%;
   width: 100%;
-  font-family: 'Source Sans Pro', sans-serif; 
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
+/* Previne a rolagem na página inteira, criando a "casca" estática */
+body {
+  overflow: hidden;
+}
+
+/* Estrutura principal com flexbox, ocupando toda a altura da janela */
 .app {
   display: flex;
   position: relative;
+  height: 100vh;
 }
 
+/* Área de conteúdo principal */
 .content {
-  height: 100%;
-  width: 100%;
-  flex-grow: 1; 
-  overflow-y: auto; 
+  flex-grow: 1; /* Ocupa o espaço restante ao lado da Sidebar */
+  height: 100vh; /* Garante que a área de conteúdo também ocupe a tela toda */
+  display: flex; /* Essencial para controlar os filhos (Topbar e Routes) */
+  flex-direction: column; /* Organiza Topbar e conteúdo verticalmente */
+  /* A rolagem agora será controlada pelos componentes filhos, não aqui */
+  overflow-y: hidden;
 }
 
+/* Estilos da barra de rolagem (mantidos) */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
-/* Track */
+/* Fundo da barra de rolagem */
 ::-webkit-scrollbar-track {
-  background: #e0e0e0;
+  background: #2e2e2e; /* Cor mais escura para combinar com o tema */
 }
 
-/* Handle */
+/* A parte que rola */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #555;
 }
 
-/* Handle on Hover */
-::-webkit-scrollbar-track:hover {
-  background: #555;
+/* A parte que rola ao passar o mouse */
+::-webkit-scrollbar-thumb:hover { /* Corrigido de -track:hover para -thumb:hover */
+  background: #777;
 }
