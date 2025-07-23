@@ -8,11 +8,10 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Header from "../../components/Header";
 
-// Componente para o efeito de digitação da resposta da IA
+// --- COMPONENTE TypingEffect ---
 const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const index = useRef(0);
-
   useEffect(() => {
     setDisplayedText('');
     index.current = 0;
@@ -20,15 +19,11 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
       if (index.current < fullText.length) {
         setDisplayedText((prev) => prev + fullText.charAt(index.current));
         index.current++;
-      } else {
-        clearInterval(intervalId);
-      }
+      } else { clearInterval(intervalId); }
     }, typingSpeed);
     return () => clearInterval(intervalId);
   }, [fullText, typingSpeed]);
-
   const isTyping = displayedText.length < fullText.length;
-
   return (
     <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}>
       {displayedText}
@@ -36,40 +31,33 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     </Typography>
   );
 };
-
-const blink = keyframes`
-  50% { border-color: transparent; }
-`;
+const blink = keyframes`50% { border-color: transparent; }`;
 
 const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   
-  // Lógica de fallback para o estado das mensagens
   const [localMessages, setLocalMessages] = useState([]);
   const messages = propMessages || localMessages;
   const updateMessages = setMessages || setLocalMessages;
 
-  // Estados locais do componente
   const [prompt, setPrompt] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const endOfMessagesRef = useRef(null);
 
-  // Definições das animações
   const gradientAnimation = keyframes`
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   `;
-
   const pulseAnimation = keyframes`
     0% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
     50% { box-shadow: 0 0 16px 4px ${colors.blueAccent[500]}; }
     100% { box-shadow: 0 0 8px 0px ${colors.blueAccent[700]}; }
   `;
 
-  // Funções para manipulação de arquivos
+  // --- FUNÇÕES DE MANIPULAÇÃO  ---
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -87,23 +75,19 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
     setSelectedFile(null);
   };
 
-  // Função para enviar o prompt
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
     if (trimmedPrompt === "" && !selectedFile) return;
 
     let newMessages = [];
-    
     if (trimmedPrompt) {
       console.log(`Enviando prompt de texto para o chat ID: ${chatId}`, { prompt: trimmedPrompt });
       newMessages.push({ id: Date.now(), text: trimmedPrompt, sender: 'user' });
     }
-
     if (selectedFile) {
       console.log(`Enviando arquivo ${selectedFile.name} junto com o prompt para o chat ID: ${chatId}`);
       newMessages.push({ id: Date.now() + 1, text: `Arquivo anexado: ${selectedFile.name}`, sender: 'user' });
     }
-
     if (newMessages.length > 0) {
       updateMessages(prev => [...prev, ...newMessages]);
     }
@@ -111,18 +95,16 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
     setPrompt("");
     setSelectedFile(null);
 
-    // Mock que simula a resposta da IA
     setTimeout(() => {
       const aiMessage = {
         id: Date.now() + 2,
-        text: "Recebi sua mensagem e/ou arquivo. Em breve estarei conectada a uma inteligência artificial, e poderei analisá-los!",
+        text: "Recebi sua mensagem. Em breve estarei conectada a uma inteligência artificial real!",
         sender: 'ai',
       };
       updateMessages(prev => [...prev, aiMessage]);
     }, 1000);
   };
 
-  // Função para enviar com a tecla Enter
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -130,7 +112,6 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
     }
   };
 
-  // Efeito para scroll automático
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -140,25 +121,14 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
       m={isMobile ? "10px" : "20px"} 
       display="flex" 
       flexDirection="column" 
-      height="100%"
-      overflow="hidden"
+      height={isMobile ? "calc(100vh - 80px)" : "calc(100vh - 100px)"}
     >
       <Header title="Orga IA" subtitle="Bem-vindo a nossa IA!" />
-      <Box 
-        display="flex" 
-        flexDirection="column" 
-        justifyContent="flex-end" 
-        flexGrow={1} 
-        position="relative"
-        overflow="hidden"
-      >
+      <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} pb={2} position="relative">
         <Box
-          flexGrow={1} 
-          display="flex" 
-          flexDirection="column"
+          flexGrow={1} display="flex" flexDirection="column"
           justifyContent={messages.length === 0 ? "center" : "flex-start"}
-          alignItems="center" 
-          sx={{ overflowY: 'auto', p: 2 }}
+          alignItems="center" sx={{ overflowY: 'auto', p: 2 }}
         >
           {messages.length === 0 ? (
             <Typography 
@@ -216,7 +186,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 label={selectedFile.name}
                 onDelete={handleRemoveFile}
                 color="primary"
-                sx={{ backgroundColor: colors.blueAccent[700] }}
+                sx={{ backgroundColor: colors.grey[700] }}
               />
             </Box>
           )}
@@ -230,7 +200,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                   backgroundColor: colors.primary[400], borderColor: 'transparent',
                   boxShadow: `0 0 12px 2px ${colors.blueAccent[600]}`,
                 },
-                '&:focus-within': { animation: `${pulseAnimation} 2s infinite` }
+                '&:focus-within': { animation: `${pulseAnimation} 2s infinite` } //animação da barra de input de prompt
               }}
             >
               <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
