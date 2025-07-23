@@ -156,13 +156,13 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 >
                   <Box sx={{
                     borderRadius: '50%',
-                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[800] : colors.greenAccent[800],
+                    backgroundColor: msg.sender === 'user' ? colors.grey[100] : colors.grey[200],
                     p: 1, display: 'flex', alignSelf: 'flex-start'
                   }}>
                     {msg.sender === 'user' ? <AccountCircleIcon /> : <SmartToyIcon />}
                   </Box>
                   <Box sx={{
-                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[700] : colors.primary[600],
+                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[100] : colors.primary[200],
                     color: colors.grey[100], p: '10px 15px',
                     borderRadius: '15px', maxWidth: '600px',
                   }}>
@@ -186,7 +186,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 label={selectedFile.name}
                 onDelete={handleRemoveFile}
                 color="primary"
-                sx={{ backgroundColor: colors.blueAccent[700] }}
+                sx={{ backgroundColor: colors.grey[700] }}
               />
             </Box>
           )}
@@ -200,7 +200,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                   backgroundColor: colors.primary[400], borderColor: 'transparent',
                   boxShadow: `0 0 12px 2px ${colors.blueAccent[600]}`,
                 },
-                '&:focus-within': { animation: `${pulseAnimation} 2s infinite` }
+                '&:focus-within': { animation: `${pulseAnimation} 2s infinite` } //animação da barra de input de prompt
               }}
             >
               <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
