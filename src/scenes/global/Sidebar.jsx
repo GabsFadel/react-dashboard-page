@@ -39,8 +39,13 @@ const Item = ({ title, to, icon, selected, setSelected, closeMobileMenu }) => {
 };
 
 const mockChatHistory = [
-  "Monitor Fora de Quadro:", "IT Service Launch Success F...", "Documento Sobre React Ho...",
-  "Como fazer café dalgona", "Teste page", "Melhores práticas de UI/UX", "Cozinhar",
+  "Monitor Fora de Quadro:", 
+  "IT Service Launch Success F...", 
+  "Documento Sobre React Ho...",
+  "Como fazer café dalgona", 
+  "Teste page", 
+  "Melhores práticas de UI/UX", 
+  "Cozinhar",
 ];
 
 const SidebarContent = ({

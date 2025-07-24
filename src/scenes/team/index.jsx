@@ -1,5 +1,13 @@
 import { useState } from "react"; 
-import { Box, Typography, useTheme, Button, IconButton } from "@mui/material";
+import {  Box, 
+          Typography, 
+          useTheme, 
+          Button, 
+          IconButton,
+          Dialog, DialogActions, 
+          DialogTitle, 
+          DialogContent, 
+          DialogContentText } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
@@ -18,42 +26,64 @@ const Team = ({ isMobile }) => {
   const navigate = useNavigate();
 
   const [users, setUsers] = useState(mockDataTeam);
+  
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    isOpen: false,
+    userId: null,
+    userName: ''
+  });
 
   const handleEdit = (id) => {
     navigate(`/edit-user/${id}`);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Você tem certeza que deseja deletar este usuário?")) {
-      setUsers(users.filter((user) => user.id !== id));
+  const handleDeleteClick = (id, name) => {
+    setDeleteConfirmation({
+      isOpen: true,
+      userId: id,
+      userName: name,
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteConfirmation.userId) {
+      setUsers(users.filter((user) => user.id !== deleteConfirmation.userId));
+      setDeleteConfirmation({ isOpen: false, userId: null, userName: '' });
     }
   };
 
+  const handleCloseDialog = () => {
+    setDeleteConfirmation({ isOpen: false, userId: null, userName: '' });
+  };
+
+
   let columns = [
     { field: "id", headerName: "ID" },
-    { field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell" },
-    { field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left" },
-    { field: "phone", headerName: "Phone Number", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
+    { field: "name", headerName: "Nome", flex: 1, cellClassName: "name-column--cell" },
+    // { field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left" },
+    { field: "phone", headerName: "Contato", flex: 1 },
+    { field: "email", headerName: "E-mail", flex: 1 },
     {
       field: "access",
-      headerName: "Access Level",
+      headerName: "Nivel de acesso",
       flex: 1,
       renderCell: ({ row: { access } }) => (
         <Box
-          // Removido 'width="80%"' para permitir que o box se ajuste ao conteúdo.
-          // Ajustado o padding para '5px 10px' para dar um espaçamento horizontal mais agradável.
           m="0 auto" 
           p="5px 10px" 
           display="flex" 
           justifyContent="center"
+          alignItems="center" // alinhamento vertical
           backgroundColor={access === 'admin' ? colors.greenAccent[600] : colors.greenAccent[700]}
           borderRadius="4px"
         >
           {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
           {access === "manager" && <SecurityOutlinedIcon />}
           {access === "user" && <LockOpenOutlinedIcon />}
-          <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>{access}</Typography>
+          <Typography
+            color={colors.grey[100]} 
+              sx={{ ml: "5px" }}>{access}
+          </Typography>
         </Box>
       ),
     },
@@ -63,10 +93,13 @@ const Team = ({ isMobile }) => {
       flex: 1,
       renderCell: (params) => (
         <Box display="flex" justifyContent="center" width="100%">
-          <IconButton onClick={() => handleEdit(params.row.id)}>
+          <IconButton 
+            onClick={() => handleEdit(params.row.id)}>
             <EditOutlinedIcon />
           </IconButton>
-          <IconButton onClick={() => handleDelete(params.row.id)} sx={{ color: colors.redAccent[500] }}>
+          <IconButton 
+            onClick={() => handleDeleteClick(params.row.id, params.row.name)}
+              sx={{ color: colors.redAccent[500] }}>
             <DeleteOutlineIcon />
           </IconButton>
         </Box>
@@ -89,7 +122,9 @@ const Team = ({ isMobile }) => {
         alignItems={isMobile ? "flex-start" : "center"}
         gap={isMobile ? 2 : 0}
       >
-        <Header title="Usuários" subtitle="Administração de usuários da IA" />
+        <Header 
+          title="Usuários" 
+          subtitle="Administração de usuários da IA" />
         <Button
           onClick={() => navigate('/form')}
           sx={{
@@ -119,11 +154,42 @@ const Team = ({ isMobile }) => {
         }}
       >
         <DataGrid
-          autoHeight
+          // autoHeight
           rows={users} 
           columns={columns}
         />
       </Box>
+
+      <Dialog
+        open={deleteConfirmation.isOpen}
+        onClose={handleCloseDialog}
+        aria-labelledby="delete-dialog-title"
+        sx={{
+            '& .MuiDialog-paper': {
+                backgroundColor: colors.primary[400],
+                backgroundImage: 'none'
+            }
+        }}
+      >
+        <DialogTitle id="delete-dialog-title">
+            {"Confirmar Deleção"}
+        </DialogTitle>
+        <DialogContent>
+            <DialogContentText color={colors.grey[100]}>
+                Gostaria mesmo de deletar o usuário "{deleteConfirmation.userName}"?
+                <br/>
+                Esta ação não pode ser desfeita.
+            </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} sx={{ color: colors.grey[100] }}>
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete} sx={{ color: colors.redAccent[500] }} autoFocus>
+            Deletar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
