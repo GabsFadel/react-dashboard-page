@@ -14,7 +14,7 @@ const Topbar = () => {
     const colorMode = useContext(ColorModeContext);
     const navigate = useNavigate();
 
-    // Estado e handlers para o menu de logout (sem alterações)
+    // Estado e handlers para o menu de logout
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const isMenuOpen = Boolean(anchorEl);

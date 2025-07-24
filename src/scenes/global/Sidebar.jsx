@@ -80,7 +80,11 @@ const SidebarContent = ({
               alignItems="center"
               ml="15px"
             >
-              <Typography variant="h3" color={colors.grey[100]}>Chats</Typography>
+              <Typography 
+                variant="h3" 
+                color={colors.grey[100]}>
+                  Chats
+              </Typography>
               <IconButton onClick={() => isMobile ? closeMobileMenu() : setIsCollapsed(!isCollapsed)}>
                 <MenuOutlinedIcon />
               </IconButton>
@@ -109,7 +113,7 @@ const SidebarContent = ({
               <Typography 
                 variant="h6" 
                 color={colors.greenAccent[500]}>
-                  © Desenvolvido pela equipe de Sistemas
+                  © Desenvolvido pela equipe Sistemas
               </Typography>
             </Box>
           </Box>
@@ -184,11 +188,9 @@ const SidebarContent = ({
 
 const Sidebar = ({ onNewChat }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  // O estado 'isSidebarOpen' controla o Drawer no mobile
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  // O estado 'isCollapsed' controla a sidebar no desktop
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("md", "xs", "sm"));
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);  // O estado 'isSidebarOpen' controla o Drawer no mobile
+  const [isCollapsed, setIsCollapsed] = useState(false);  // O estado 'isCollapsed' controla a sidebar no desktop
   const [selected, setSelected] = useState("Dashboard");
 
   return (

@@ -1,13 +1,14 @@
 import { useState } from "react"; 
-import {  Box, 
-          Typography, 
-          useTheme, 
-          Button, 
-          IconButton,
-          Dialog, DialogActions, 
-          DialogTitle, 
-          DialogContent, 
-          DialogContentText } from "@mui/material";
+import {  
+  Box, 
+  Typography, 
+  useTheme, 
+  Button, 
+  IconButton,
+  Dialog, DialogActions, 
+  DialogTitle, 
+  DialogContent, 
+  DialogContentText } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
@@ -149,7 +150,7 @@ const Team = ({ isMobile }) => {
           "& .MuiDataGrid-cell": { borderBottom: "none" },
           "& .name-column--cell": { color: colors.greenAccent[300] },
           "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.blueAccent[700], borderBottom: "none" },
-          "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
+          "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.blackAccent[800] },
           "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
         }}
       >

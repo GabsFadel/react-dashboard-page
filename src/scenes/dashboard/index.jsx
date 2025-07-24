@@ -156,14 +156,14 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 >
                   <Box sx={{
                     borderRadius: '50%',
-                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[800] : colors.greenAccent[800],
+                    backgroundColor: msg.sender === 'user' ? colors.blueAccent[800] : colors.greenAccent[800], // css aparencia do envio de prompt na tela
                     p: 1, display: 'flex', alignSelf: 'flex-start'
                   }}>
                     {msg.sender === 'user' ? <AccountCircleIcon /> : <SmartToyIcon />}
                   </Box>
                   <Box sx={{
                     backgroundColor: msg.sender === 'user' ? colors.blueAccent[700] : colors.primary[600],
-                    color: colors.grey[100], p: '10px 15px',
+                    color: colors.grey[100], p: '10px 15px', // css do retorno de mensagem pela IA 
                     borderRadius: '15px', maxWidth: '600px',
                   }}>
                     {msg.sender === 'ai' ? (
