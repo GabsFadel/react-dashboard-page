@@ -11,19 +11,31 @@ import Header from "../../components/Header";
 // --- COMPONENTE TypingEffect ---
 const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
   const [displayedText, setDisplayedText] = useState('');
-  const index = useRef(0);
+
   useEffect(() => {
+    // Reseta o texto exibido sempre que o texto completo mudar
     setDisplayedText('');
-    index.current = 0;
-    const intervalId = setInterval(() => {
-      if (index.current < fullText.length) {
-        setDisplayedText((prev) => prev + fullText.charAt(index.current));
-        index.current++;
-      } else { clearInterval(intervalId); }
-    }, typingSpeed);
-    return () => clearInterval(intervalId);
+
+    // Garante que só executa se houver texto para evitar erros
+    if (fullText) {
+      let i = 0;
+      const intervalId = setInterval(() => {
+        // Usa slice para pegar a porção correta do texto. É mais robusto.
+        setDisplayedText(fullText.slice(0, i + 1));
+        i++;
+        // Para o intervalo quando o índice ultrapassa o comprimento do texto.
+        if (i > fullText.length) {
+          clearInterval(intervalId);
+        }
+      }, typingSpeed);
+
+      // Função de limpeza para parar o intervalo se o componente for desmontado.
+      return () => clearInterval(intervalId);
+    }
   }, [fullText, typingSpeed]);
+
   const isTyping = displayedText.length < fullText.length;
+
   return (
     <Typography component="span" sx={{ whiteSpace: 'pre-wrap' }}>
       {displayedText}
@@ -31,6 +43,7 @@ const TypingEffect = ({ fullText, typingSpeed = 30 }) => {
     </Typography>
   );
 };
+
 const blink = keyframes`50% { border-color: transparent; }`;
 
 const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) => {
