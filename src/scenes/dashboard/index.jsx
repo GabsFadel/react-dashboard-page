@@ -158,7 +158,11 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
               Pergunte a Orga IA!
             </Typography>
           ) : (
-            <Box width="100%" maxWidth="900px" display="flex" flexDirection="column" gap={2}>
+            <Box  width="100%" 
+                  maxWidth="900px" 
+                  display="flex" 
+                  flexDirection="column" 
+                  gap={2}>
               {messages.map(msg => (
                 <Box
                   key={msg.id}
@@ -176,8 +180,10 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                   </Box>
                   <Box sx={{
                     backgroundColor: msg.sender === 'user' ? colors.blueAccent[700] : colors.primary[600],
-                    color: colors.grey[100], p: '10px 15px', // css do retorno de mensagem pela IA 
-                    borderRadius: '15px', maxWidth: '600px',
+                    color: colors.grey[100], 
+                    p: '10px 15px', // css do retorno de mensagem pela IA 
+                    borderRadius: '15px', 
+                    maxWidth: '600px',
                   }}>
                     {msg.sender === 'ai' ? (
                       <TypingEffect fullText={msg.text} />
@@ -223,7 +229,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
               <InputBase
                 fullWidth placeholder="Peça ao Orga ou anexe um arquivo" value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                onKeyPress={handleKeyPress} multiline maxRows={5}
+                onKeyDown ={handleKeyPress} multiline maxRows={5}
                 sx={{
                   color: colors.grey[100], fontSize: '16px', ml: 1,
                   '& .MuiInputBase-input::placeholder': { color: colors.grey[300], opacity: 1 },

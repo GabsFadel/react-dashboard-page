@@ -24,7 +24,7 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 const Item = ({ title, to, icon, selected, setSelected, closeMobileMenu }) => {
   const navigate = useNavigate();
   return (
-    <MenuItem
+    <MenuItem // Renderiza itens do painel de adm
       active={selected === title}
       onClick={() => {
         setSelected(title);
@@ -85,7 +85,7 @@ const SidebarContent = ({
                 color={colors.grey[100]}>
                   Chats
               </Typography>
-              <IconButton onClick={() => isMobile ? closeMobileMenu() : setIsCollapsed(!isCollapsed)}>
+                <IconButton onClick={() => isMobile ? closeMobileMenu() : setIsCollapsed(!isCollapsed)}>
                 <MenuOutlinedIcon />
               </IconButton>
             </Box>
@@ -199,7 +199,12 @@ const Sidebar = ({ onNewChat }) => {
       {isMobile && !isSidebarOpen && (
   <IconButton 
     onClick={() => setIsSidebarOpen(true)} 
-    sx={{ position: 'fixed', top: '15px', left: '15px', zIndex: 1201 }}
+    sx={{ 
+      position: 'fixed', 
+      top: '15px', 
+      left: '15px', 
+      zIndex: 2000, // Aumente para garantir que esteja acima de tudo
+    }}
   >
     <MenuOutlinedIcon />
   </IconButton>

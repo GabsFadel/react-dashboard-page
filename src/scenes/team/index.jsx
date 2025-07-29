@@ -61,7 +61,6 @@ const Team = ({ isMobile }) => {
   let columns = [
     { field: "id", headerName: "ID" },
     { field: "name", headerName: "Nome", flex: 1, cellClassName: "name-column--cell" },
-    // { field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left" },
     { field: "phone", headerName: "Contato", flex: 1 },
     { field: "email", headerName: "E-mail", flex: 1 },
     {
