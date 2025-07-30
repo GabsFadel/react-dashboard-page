@@ -34,7 +34,7 @@ const EditUser = ({ isMobile }) => {
     lastName: userToEdit.name.split(' ')[1] || "",
     email: userToEdit.email,
     contact: userToEdit.phone,
-    age: userToEdit.age,
+    // age: userToEdit.age,
     access: userToEdit.access,
     password: "",
     confirmPassword: "",
@@ -47,7 +47,7 @@ const EditUser = ({ isMobile }) => {
     lastName: yup.string().required("O sobrenome é obrigatório"),
     email: yup.string().email("Formato de email inválido").required("O email é obrigatório"),
     contact: yup.string().matches(phoneRegExp, "Número de telefone não é válido").required("O contato é obrigatório"),
-    age: yup.number().positive().integer().required("A idade é obrigatória"),
+    // age: yup.number().positive().integer().required("A idade é obrigatória"),
     access: yup.string().oneOf(["admin", "manager", "user"]).required("O nível de acesso é obrigatório"),
     password: yup.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
     confirmPassword: yup.string()
@@ -182,7 +182,7 @@ const EditUser = ({ isMobile }) => {
                   helperText={touched.contact && errors.contact} 
                     sx={{ gridColumn: "span 4" }} 
               />
-              <TextField 
+              {/* <TextField 
                   fullWidth 
                   variant="filled" 
                   type="number" 
@@ -194,7 +194,7 @@ const EditUser = ({ isMobile }) => {
                   error={!!touched.age && !!errors.age} 
                   helperText={touched.age && errors.age} 
                     sx={{ gridColumn: isMobile ? "span 4" : "span 2" }} 
-              />
+              /> */}
               <TextField 
                   fullWidth 
                   variant="filled" 

@@ -202,14 +202,14 @@ const Sidebar = ({ onNewChat }) => {
     sx={{ 
       position: 'fixed', 
       top: '15px', 
-      left: '15px', 
-      zIndex: 2000, // Aumente para garantir que esteja acima de tudo
+      left: '15px'
     }}
   >
     <MenuOutlinedIcon />
   </IconButton>
 )}
 
+      {/* RENDERIZA MOBILE */}
       {isMobile ? (
         <Drawer 
           anchor="left" 
@@ -227,8 +227,8 @@ const Sidebar = ({ onNewChat }) => {
             closeMobileMenu={() => setIsSidebarOpen(false)} // Passa a função para fechar o Drawer
           />
         </Drawer>
-      ) : (
-        <Box sx={{ position: 'sticky', top: 0, height: '100vh' }}>
+      ) : ( //RENDERIZA DESKTOP
+        <Box sx={{ position: 'relative', top: 0, height: '100vh' }}>
           <SidebarContent
             onNewChat={onNewChat}
             isMobile={false}
