@@ -52,10 +52,10 @@ const MainLayout = () => {
         isMobile={isMobile}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
-        onNewChat={handleNewChat} 
+        onNewChat={handleNewChat}
       />
       <main className="content">
-        <Topbar setIsSidebarOpen={setIsSidebarOpen} />
+      <Topbar setIsSidebarOpen={setIsSidebarOpen} />
         <Routes>
           <Route 
             path="/dashboard" 

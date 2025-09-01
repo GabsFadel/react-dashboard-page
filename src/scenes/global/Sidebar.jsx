@@ -6,7 +6,6 @@ import {
   IconButton,
   Typography,
   useTheme,
-  useMediaQuery,
   Drawer,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +23,7 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 const Item = ({ title, to, icon, selected, setSelected, closeMobileMenu }) => {
   const navigate = useNavigate();
   return (
-    <MenuItem // Renderiza itens do painel de adm
+    <MenuItem
       active={selected === title}
       onClick={() => {
         setSelected(title);
@@ -55,7 +54,7 @@ const SidebarContent = ({
   setSelected,
   isCollapsed,
   setIsCollapsed,
-  closeMobileMenu // Nova prop para fechar o menu mobile
+  closeMobileMenu
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -68,24 +67,16 @@ const SidebarContent = ({
     <ProSidebar collapsed={isCollapsed}>
       <Menu iconShape="square">
         <MenuItem
-          // A função fecha o Drawer no mobile ou recolhe no desktop
-          onClick={() => isMobile ? closeMobileMenu() : setIsCollapsed(!isCollapsed)}
+          onClick={() => (isMobile ? closeMobileMenu() : setIsCollapsed(!isCollapsed))}
           icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           style={{ margin: "10px 0 20px 0", color: colors.grey[100] }}
         >
           {!isCollapsed && (
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              ml="15px"
-            >
-              <Typography 
-                variant="h3" 
-                color={colors.grey[100]}>
-                  Chats
+            <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
+              <Typography variant="h3" color={colors.grey[100]}>
+                Chats
               </Typography>
-                <IconButton onClick={() => isMobile ? closeMobileMenu() : setIsCollapsed(!isCollapsed)}>
+              <IconButton onClick={() => (isMobile ? closeMobileMenu() : setIsCollapsed(!isCollapsed))}>
                 <MenuOutlinedIcon />
               </IconButton>
             </Box>
@@ -95,90 +86,97 @@ const SidebarContent = ({
         {!isCollapsed && (
           <Box mb="25px">
             <Box display="flex" justifyContent="center" alignItems="center">
-              <img  
-                alt="profile-user" 
-                width="100px" 
-                height="100px" 
-                src={`../../assets/user.jpeg`} 
-                style={{ cursor: "pointer",
-                borderRadius: "50%" }} />
+              <img
+                alt="profile-user"
+                width="100px"
+                height="100px"
+                src={`../../assets/user.jpeg`}
+                style={{ cursor: "pointer", borderRadius: "50%" }}
+              />
             </Box>
             <Box textAlign="center">
-              <Typography   
-                variant="h3" 
-                color={colors.grey[200]} 
-                sx={{ m: "10px 0 0 0" }}>
-                  Orga AI
+              <Typography variant="h3" color={colors.grey[200]} sx={{ m: "10px 0 0 0" }}>
+                Orga AI
               </Typography>
-              <Typography 
-                variant="h6" 
-                color={colors.greenAccent[500]}>
-                  © Desenvolvido pela equipe Sistemas
+              <Typography variant="h6" color={colors.greenAccent[500]}>
+                © Desenvolvido pela equipe Sistemas
               </Typography>
             </Box>
           </Box>
         )}
-        
+
         <Box paddingLeft={isCollapsed ? undefined : "10%"}>
           <MenuItem
             active={selected === "Nova conversa"}
             style={{ color: colors.grey[100] }}
             onClick={() => {
               setSelected("Nova conversa");
-              if(onNewChat) onNewChat();
+              if (onNewChat) onNewChat();
               navigate("/dashboard");
-              if(isMobile) closeMobileMenu();
+              if (isMobile) closeMobileMenu();
             }}
             icon={<AddCommentOutlinedIcon />}
           >
             <Typography>Nova conversa</Typography>
           </MenuItem>
 
-          {!isCollapsed && (<Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>Recentes</Typography>)}
+          {!isCollapsed && (
+            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+              Recentes
+            </Typography>
+          )}
+
           {visibleHistory.map((chatTitle, index) => (
-            <MenuItem 
-              key={`${chatTitle}-${index}`} 
-              style={{ color: colors.grey[100] }} 
-              icon={<ChatBubbleOutlineIcon />} 
-              onClick={() => { setSelected(chatTitle); if(isMobile) closeMobileMenu(); }} active={selected === chatTitle}>
+            <MenuItem
+              key={`${chatTitle}-${index}`}
+              style={{ color: colors.grey[100] }}
+              icon={<ChatBubbleOutlineIcon />}
+              onClick={() => {
+                setSelected(chatTitle);
+                if (isMobile) closeMobileMenu();
+              }}
+              active={selected === chatTitle}
+            >
               <Typography>{chatTitle}</Typography>
             </MenuItem>
           ))}
+
           {!isCollapsed && mockChatHistory.length > initialVisibleCount && (
-            <MenuItem 
-              icon={isShowingMore ? <ExpandLessIcon /> : <ExpandMoreIcon />} 
-              style={{ color: colors.grey[300] }} 
-              onClick={() => setIsShowingMore(!isShowingMore)}>
-              <Typography>{isShowingMore ? 'Mostrar menos' : 'Mostrar mais'}</Typography>
+            <MenuItem
+              icon={isShowingMore ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              style={{ color: colors.grey[300] }}
+              onClick={() => setIsShowingMore(!isShowingMore)}
+            >
+              <Typography>{isShowingMore ? "Mostrar menos" : "Mostrar mais"}</Typography>
             </MenuItem>
           )}
 
           <Box my="20px" />
-          <SubMenu  
-            title="Administração" 
-            icon={<AdminPanelSettingsOutlinedIcon />} 
-            style={{ color: colors.grey[100] }}>
-            <Item   
-              title="Dashboard" 
-              to="/dashboard" 
-              icon={<HomeOutlinedIcon />} 
-              selected={selected} 
-              setSelected={setSelected} 
-              closeMobileMenu={closeMobileMenu}/>
-            <Item   
-              title="Usuários" 
-              to="/team" 
-              icon={<PeopleOutlinedIcon />} 
-              selected={selected} 
-              setSelected={setSelected} 
-              closeMobileMenu={closeMobileMenu}/>
-            <Item   
-              title="Criar Usuários" 
-              to="/form" 
-              icon={<PersonAddOutlinedIcon />} 
-              selected={selected} 
-              setSelected={setSelected} 
-              closeMobileMenu={closeMobileMenu}/>
+          <SubMenu title="Administração" icon={<AdminPanelSettingsOutlinedIcon />} style={{ color: colors.grey[100] }}>
+            <Item
+              title="Dashboard"
+              to="/dashboard"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              closeMobileMenu={closeMobileMenu}
+            />
+            <Item
+              title="Usuários"
+              to="/team"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              closeMobileMenu={closeMobileMenu}
+            />
+            <Item
+              title="Criar Usuários"
+              to="/form"
+              icon={<PersonAddOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              closeMobileMenu={closeMobileMenu}
+            />
           </SubMenu>
         </Box>
       </Menu>
@@ -186,49 +184,35 @@ const SidebarContent = ({
   );
 };
 
-const Sidebar = ({ onNewChat }) => {
+// ⬇️ Componente que só coordena mobile (Drawer) x desktop (colapse)
+//    Agora usa o estado vindo do App.js para abrir/fechar no mobile.
+const Sidebar = ({ onNewChat, isMobile, isSidebarOpen, setIsSidebarOpen }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md", "xs", "sm"));
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);  // O estado 'isSidebarOpen' controla o Drawer no mobile
-  const [isCollapsed, setIsCollapsed] = useState(false);  // O estado 'isCollapsed' controla a sidebar no desktop
+  const [isCollapsed, setIsCollapsed] = useState(false); // controla colapso no desktop
   const [selected, setSelected] = useState("Dashboard");
 
   return (
     <>
-      {/* O botão de abrir o menu mobile fica fora do Drawer, na Topbar */}
-      {isMobile && !isSidebarOpen && (
-  <IconButton 
-    onClick={() => setIsSidebarOpen(true)} 
-    sx={{ 
-      position: 'fixed', 
-      top: '15px', 
-      left: '15px'
-    }}
-  >
-    <MenuOutlinedIcon />
-  </IconButton>
-)}
-
-      {/* RENDERIZA MOBILE */}
       {isMobile ? (
-        <Drawer 
-          anchor="left" 
-          open={isSidebarOpen} 
+        <Drawer
+          anchor="left"
+          open={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
+          // opcional: defina a largura do drawer para combinar com o ProSidebar
+          PaperProps={{ sx: { width: 260 } }}
         >
-
           <SidebarContent
             onNewChat={onNewChat}
             isMobile={true}
             selected={selected}
             setSelected={setSelected}
-            isCollapsed={false} // No Drawer, a sidebar está sempre expandida
-            setIsCollapsed={() => {}} // A função é passada, mas não precisa fazer nada
-            closeMobileMenu={() => setIsSidebarOpen(false)} // Passa a função para fechar o Drawer
+            isCollapsed={false}           // Drawer sempre expandido
+            setIsCollapsed={() => {}}     // não usado no mobile
+            closeMobileMenu={() => setIsSidebarOpen(false)}
           />
         </Drawer>
-      ) : ( //RENDERIZA DESKTOP
-        <Box sx={{ position: 'relative', top: 0, height: '100vh' }}>
+      ) : (
+        <Box sx={{ position: "relative", top: 0, height: "100vh" }}>
           <SidebarContent
             onNewChat={onNewChat}
             isMobile={false}
