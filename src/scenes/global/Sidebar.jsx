@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
-import {
-  Box,
-  IconButton,
-  Typography,
-  useTheme,
-  Drawer,
-} from "@mui/material";
+import { Box, IconButton, Typography, useTheme, Drawer } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -117,11 +111,16 @@ const SidebarContent = ({
             }}
             icon={<AddCommentOutlinedIcon />}
           >
-            <Typography>Nova conversa</Typography>
+            <Typography>
+              Nova conversa
+            </Typography>
           </MenuItem>
 
           {!isCollapsed && (
-            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+            <Typography 
+              variant="h6" 
+              color={colors.grey[300]} 
+              sx={{ m: "15px 0 5px 20px" }}>
               Recentes
             </Typography>
           )}
@@ -147,12 +146,16 @@ const SidebarContent = ({
               style={{ color: colors.grey[300] }}
               onClick={() => setIsShowingMore(!isShowingMore)}
             >
-              <Typography>{isShowingMore ? "Mostrar menos" : "Mostrar mais"}</Typography>
+              <Typography>
+                {isShowingMore ? "Mostrar menos" : "Mostrar mais"}
+              </Typography>
             </MenuItem>
           )}
 
           <Box my="20px" />
-          <SubMenu title="Administração" icon={<AdminPanelSettingsOutlinedIcon />} style={{ color: colors.grey[100] }}>
+          <SubMenu  title="Administração" 
+                    icon={<AdminPanelSettingsOutlinedIcon />} 
+                    style={{ color: colors.grey[100] }}>
             <Item
               title="Dashboard"
               to="/dashboard"
@@ -206,8 +209,8 @@ const Sidebar = ({ onNewChat, isMobile, isSidebarOpen, setIsSidebarOpen }) => {
             isMobile={true}
             selected={selected}
             setSelected={setSelected}
-            isCollapsed={false}           // Drawer sempre expandido
-            setIsCollapsed={() => {}}     // não usado no mobile
+            isCollapsed={false} // Drawer sempre expandido
+            setIsCollapsed={() => {}} // não usado no mobile
             closeMobileMenu={() => setIsSidebarOpen(false)}
           />
         </Drawer>
