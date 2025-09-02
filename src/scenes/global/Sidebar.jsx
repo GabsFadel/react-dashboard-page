@@ -153,9 +153,10 @@ const SidebarContent = ({
           )}
 
           <Box my="20px" />
-          <SubMenu  title="Administração" 
-                    icon={<AdminPanelSettingsOutlinedIcon />} 
-                    style={{ color: colors.grey[100] }}>
+          <SubMenu  
+              title="Administração" 
+              icon={<AdminPanelSettingsOutlinedIcon />} 
+              style={{ color: colors.grey[100] }}>
             <Item
               title="Dashboard"
               to="/dashboard"
@@ -187,8 +188,8 @@ const SidebarContent = ({
   );
 };
 
-// ⬇️ Componente que só coordena mobile (Drawer) x desktop (colapse)
-//    Agora usa o estado vindo do App.js para abrir/fechar no mobile.
+// Componente que só coordena mobile (Drawer) x desktop (colapse)
+// Estado vindo do App.js para abrir/fechar no mobile.
 const Sidebar = ({ onNewChat, isMobile, isSidebarOpen, setIsSidebarOpen }) => {
   const theme = useTheme();
   const [isCollapsed, setIsCollapsed] = useState(false); // controla colapso no desktop
@@ -202,7 +203,7 @@ const Sidebar = ({ onNewChat, isMobile, isSidebarOpen, setIsSidebarOpen }) => {
           open={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
           // opcional: defina a largura do drawer para combinar com o ProSidebar
-          PaperProps={{ sx: { width: 260 } }}
+          slotProps={{ sx: { width: 260 } }}
         >
           <SidebarContent
             onNewChat={onNewChat}
