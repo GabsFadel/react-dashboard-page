@@ -26,7 +26,9 @@ const Item = ({ title, to, icon, selected, setSelected, closeMobileMenu }) => {
       }}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      <Typography>
+        {title}
+        </Typography>
     </MenuItem>
   );
 };
@@ -203,7 +205,7 @@ const Sidebar = ({ onNewChat, isMobile, isSidebarOpen, setIsSidebarOpen }) => {
           open={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
           // opcional: defina a largura do drawer para combinar com o ProSidebar
-          slotProps={{ sx: { width: 260 } }}
+          //slotProps={{ sx: { width: 260 } }}
         >
           <SidebarContent
             onNewChat={onNewChat}

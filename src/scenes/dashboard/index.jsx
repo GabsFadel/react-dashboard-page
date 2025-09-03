@@ -227,7 +227,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 <AddCircleOutlineIcon />
               </IconButton>
               <InputBase
-                fullWidth placeholder="Peça ao Orga ou anexe um arquivo" value={prompt}
+                fullWidth placeholder="Peça ao Orga IA" value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 onKeyDown ={handleKeyPress} multiline maxRows={5}
                 sx={{
