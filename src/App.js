@@ -26,7 +26,7 @@ const MainLayout = () => {
 
   const handleNewChat = async () => {
     setMessages([]);
-    const newChatId = `chat_${Date.now()}`;
+    const newChatId = `${Date.now()}`;
     setActiveChatId(newChatId);
     console.log(`Nova conversa criada com ID: ${newChatId}`);
   };
