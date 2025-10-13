@@ -102,9 +102,3 @@ A estrutura de pastas do projeto segue o padrão de aplicações React, com uma 
 
 Este projeto é inspirado em outras plataformas de IA, e foi feito com conceito de implantação e estudos, fique a vontade para estudar seu código!
 
----
-
-## 🙏 Agradecimentos
-
-* À **Equipe de Sistemas** pelo desenvolvimento e manutenção.
-* A todos os colaboradores que participam dos testes e feedbacks.
