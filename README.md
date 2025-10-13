@@ -1,17 +1,17 @@
-# Orga IA 🤖
+# IA Interface 🤖
 
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
 ![Framework](https://img.shields.io/badge/framework-React-blue?logo=react)
 ![Versão](https://img.shields.io/badge/versão-1.0.0-informational)
 ![Licença](https://img.shields.io/badge/licença-Proprietária-red)
 
-Orga IA é uma plataforma de chat inteligente e segura, desenvolvida para uso interno na **[Organnact]**. Ela oferece uma interface moderna e intuitiva para interação com nosso modelo de IA customizado, baseado na tecnologia da OpenAI, além de um painel administrativo completo para gestão de acessos.
+A IA interface é uma plataforma de chat inteligente e segura, desenvolvida para uso interno na empresa. Ela oferece uma interface moderna e intuitiva para interação com nosso modelo de IA customizado, baseado na tecnologia da OpenAI, além de um painel administrativo completo para gestão de acessos.
 
 ---
 
 ## 📜 Sobre o Projeto
 
-O objetivo da Orga IA é centralizar a utilização de inteligência artificial na nossa organização, fornecendo uma ferramenta unificada, segura e adaptada às nossas necessidades. A plataforma foi construída com foco em uma experiência de usuário fluida e em ferramentas de administração robustas, garantindo que apenas usuários autorizados tenham acesso e que os administradores possam gerenciar a plataforma com facilidade.
+O objetivo da IA Interface é centralizar a utilização de inteligência artificial na nossa organização, fornecendo uma ferramenta unificada, segura e adaptada às nossas necessidades. A plataforma foi construída com foco em uma experiência de usuário fluida e em ferramentas de administração robustas, garantindo que apenas usuários autorizados tenham acesso e que os administradores possam gerenciar a plataforma com facilidade.
 
 ---
 
@@ -100,7 +100,7 @@ A estrutura de pastas do projeto segue o padrão de aplicações React, com uma 
 
 ## 📄 Licença
 
-Este projeto é de uso exclusivo da **[Organnact]** e possui licença proprietária. A distribuição, cópia ou utilização fora do ambiente da empresa não é permitida.
+Este projeto é inspirado em outras plataformas de IA, e foi feito com conceito de implantação e estudos, fique a vontade para estudar seu código!
 
 ---
 

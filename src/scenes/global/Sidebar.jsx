@@ -92,10 +92,10 @@ const SidebarContent = ({
             </Box>
             <Box textAlign="center">
               <Typography variant="h3" color={colors.grey[200]} sx={{ m: "10px 0 0 0" }}>
-                Orga AI
+                IA Interface
               </Typography>
               <Typography variant="h6" color={colors.greenAccent[500]}>
-                © Desenvolvido pela equipe Sistemas
+                © Desenvolvido para uso interno de empresas
               </Typography>
             </Box>
           </Box>

@@ -136,7 +136,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
       flexDirection="column" 
       height={isMobile ? "calc(100vh - 80px)" : "calc(100vh - 100px)"}
     >
-      <Header title="Orga IA" subtitle="Bem-vindo a nossa IA!" />
+      <Header title="Sua IA" subtitle="Bem-vindo a nossa IA!" />
       <Box display="flex" flexDirection="column" justifyContent="flex-end" flexGrow={1} pb={2} position="relative">
         <Box
           flexGrow={1} display="flex" flexDirection="column"
@@ -155,7 +155,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 color: 'transparent', animation: `${gradientAnimation} 4s ease infinite`,
               }}
             >
-              Pergunte a Orga IA!
+              Pergunte a IA!
             </Typography>
           ) : (
             <Box  width="100%" 
@@ -227,7 +227,7 @@ const Dashboard = ({ messages: propMessages, setMessages, chatId, isMobile }) =>
                 <AddCircleOutlineIcon />
               </IconButton>
               <InputBase
-                fullWidth placeholder="Peça ao Orga IA" value={prompt}
+                fullWidth placeholder="Peça a IA Interface" value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 onKeyDown ={handleKeyPress} multiline maxRows={5}
                 sx={{
